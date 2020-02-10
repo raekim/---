@@ -8,6 +8,13 @@ MainGame::MainGame()
 
 	SetViewProjectionMatrixes();
 	SetBlendStates();
+
+	g_pTextureManager->AddTexture(L"test-ground", L"spritesheet_ground.png");
+	test_sprite = new Sprite(L"test-ground", 8, 16, 0);
+	test_sprite->Init();
+	test_sprite->Update();
+
+	this->Init();
 }
 
 void MainGame::SetViewProjectionMatrixes()
@@ -93,6 +100,7 @@ void MainGame::Render()
 	DeviceContext->OMSetBlendState(m_pAlphaBlendState, NULL, 0xFF);	// 반투명 사용 설정
 
 	// Render
+	test_sprite->Render();
 
 	DeviceContext->OMSetBlendState(m_pNormalBlendState, NULL, 0xFF); // 반투명 미사용(기본값) 설정
 
