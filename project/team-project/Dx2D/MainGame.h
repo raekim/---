@@ -11,8 +11,9 @@ private:
 	void SetBlendStates();	// 옵션별 블렌드 상태값 생성
 
 private:
-	// Game Classes
-	
+	// Game Classes	
+	Character*				m_pCharacter;
+
 public:
 	MainGame();
 	~MainGame();

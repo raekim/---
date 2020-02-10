@@ -9,6 +9,7 @@ MainGame::MainGame()
 	SetViewProjectionMatrixes();
 	SetBlendStates();
 
+	this->CreateGameClasses();
 	this->Init();
 }
 
@@ -61,21 +62,24 @@ void MainGame::SetBlendStates()
 
 MainGame::~MainGame()
 {
+	this->DeleteGameClasses();
 	this->Release();
 }
 
 void MainGame::Init()
 {
-
+	m_pCharacter->Init();
 }
 
 void MainGame::CreateGameClasses()
 {
+	m_pCharacter = new Character;
 
 }
 void MainGame::DeleteGameClasses()
 {
 	//SAFE_DELETE
+	SAFE_DELETE(m_pCharacter);
 }
 
 void MainGame::Update()
@@ -84,6 +88,8 @@ void MainGame::Update()
 	{
 		this->Init();
 	}
+
+	SAFE_UPDATE(m_pCharacter);
 }
 
 void MainGame::Render()
@@ -95,6 +101,7 @@ void MainGame::Render()
 	DeviceContext->OMSetBlendState(m_pAlphaBlendState, NULL, 0xFF);	// 반투명 사용 설정
 
 	// Render
+	SAFE_RENDER(m_pCharacter);
 
 	DeviceContext->OMSetBlendState(m_pNormalBlendState, NULL, 0xFF); // 반투명 미사용(기본값) 설정
 
