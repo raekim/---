@@ -4,7 +4,7 @@
 
 void KeyManager::Init()
 {
-	// ¸ğµç °ªµéÀ» false·Î ÃÊ±âÈ­
+	// ëª¨ë“  ê°’ë“¤ì„ falseë¡œ ì´ˆê¸°í™”
 	m_bitKeyUp.reset();
 	m_bitKeyDown.reset();
 	m_bitKeyToggle.reset();
@@ -14,10 +14,10 @@ bool KeyManager::isOnceKeyDown(int key)
 {
 	if (GetAsyncKeyState(key) & 0x8000)
 	{
-		if (!m_bitKeyDown[key]) // ÀÌÀü¿¡ ´­¸®Áö ¾ÊÀº »óÅÂ
+		if (!m_bitKeyDown[key]) // ì´ì „ì— ëˆŒë¦¬ì§€ ì•Šì€ ìƒíƒœ
 		{
 			m_bitKeyDown.set(key, true);
-			return true;		// Å°°¡ Áö±İ ¸· ´­·È´Ù.
+			return true;		// í‚¤ê°€ ì§€ê¸ˆ ë§‰ ëˆŒë ¸ë‹¤.
 		}
 	}
 	else
@@ -36,7 +36,7 @@ bool KeyManager::isOnceKeyUp(int key)
 	}
 	else
 	{
-		if (m_bitKeyUp[key]) // ÀÌÀü¿¡ Å°°¡ ´­·ÁÁ® ÀÖ´Â »óÅÂ ¿´´Ù.
+		if (m_bitKeyUp[key]) // ì´ì „ì— í‚¤ê°€ ëˆŒë ¤ì ¸ ìˆëŠ” ìƒíƒœ ì˜€ë‹¤.
 		{
 			m_bitKeyUp.set(key, false);
 			return true;

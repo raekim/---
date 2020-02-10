@@ -7,19 +7,19 @@ void Sprite::InitSprite(wstring key, float u1, float v1, float u2, float v2, int
 	Primitive2DObejct::Init();
 	this->Init();
 
-	// ÅØ½ºÃÄ ÀÌ¹ÌÁö ¿¬°á
+	// í…ìŠ¤ì³ ì´ë¯¸ì§€ ì—°ê²°
 	{
 		m_pTexture = g_pTextureManager->GetTexture(key);
 	}
 
-	// ¿ùµå ¸ÅÆ®¸¯½º ¼ÂÆÃ ¹× ¹öÆÛ »ý¼º
+	// ì›”ë“œ ë§¤íŠ¸ë¦­ìŠ¤ ì…‹íŒ… ë° ë²„í¼ ìƒì„±
 	{
 		D3D11_BUFFER_DESC desc = { 0, };
 		desc.Usage = D3D11_USAGE_DEFAULT;
 		desc.ByteWidth = sizeof(D3DXMATRIX);
 		desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
-		// ¹öÆÛ¿¡ ´ãÀ» µ¥ÀÌÅÍ
+		// ë²„í¼ì— ë‹´ì„ ë°ì´í„°
 		D3D11_SUBRESOURCE_DATA data = { 0, };
 		data.pSysMem = &m_matWorld;
 
@@ -30,28 +30,28 @@ void Sprite::InitSprite(wstring key, float u1, float v1, float u2, float v2, int
 	m_fWidth = m_pTexture->stInfo.Width / numX;
 	m_fHeight = m_pTexture->stInfo.Height / numY;
 
-	// ¹öÅØ½º °ª ¼ÂÆÃ ¹× ¹öÆÛ »ý¼º
+	// ë²„í…ìŠ¤ ê°’ ì…‹íŒ… ë° ë²„í¼ ìƒì„±
 	{
 		m_vecVertex.push_back(PTVertex(D3DXVECTOR3(-(m_fWidth * 0.5f),-(m_fHeight * 0.5f), 0), D3DXVECTOR2(u1, v2)));	// 0 : 0, 1
 		m_vecVertex.push_back(PTVertex(D3DXVECTOR3(-(m_fWidth * 0.5f), (m_fHeight * 0.5f), 0), D3DXVECTOR2(u1, v1)));	// 1 : 0, 0
 		m_vecVertex.push_back(PTVertex(D3DXVECTOR3( (m_fWidth * 0.5f), (m_fHeight * 0.5f), 0), D3DXVECTOR2(u2, v1)));	// 2 : 1, 0
 		m_vecVertex.push_back(PTVertex(D3DXVECTOR3( (m_fWidth * 0.5f),-(m_fHeight * 0.5f), 0), D3DXVECTOR2(u2, v2)));	// 3 : 1, 1
 
-		// ¹öÆÛ ¼³Á¤°ª
+		// ë²„í¼ ì„¤ì •ê°’
 		D3D11_BUFFER_DESC desc = { 0, };
 		desc.Usage = D3D11_USAGE_DEFAULT;
 		desc.ByteWidth = sizeof(PTVertex) * m_vecVertex.size();
 		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		// ¹öÆÛ¿¡ ´ãÀ» µ¥ÀÌÅÍ
+		// ë²„í¼ì— ë‹´ì„ ë°ì´í„°
 		D3D11_SUBRESOURCE_DATA data = { 0, };
 		data.pSysMem = &m_vecVertex[0];
 
-		// ¹öÆÛ »ý¼º(IN ¹öÆÛ ¼³Á¤°ª, IN µ¥ÀÌÅÍ, OUT ¸¸µé¾îÁø ¹öÆÛ¿¡ ´ëÇÑ Æ÷ÀÎÅÍ)
+		// ë²„í¼ ìƒì„±(IN ë²„í¼ ì„¤ì •ê°’, IN ë°ì´í„°, OUT ë§Œë“¤ì–´ì§„ ë²„í¼ì— ëŒ€í•œ í¬ì¸í„°)
 		HRESULT hr = Device->CreateBuffer(&desc, &data, &m_pVertexBuffer);
 		assert(SUCCEEDED(hr));
 	}
 
-	// ÀÎµ¦½º °ª ¼ÂÆÃ ¹× ¹öÆÛ »ý¼º
+	// ì¸ë±ìŠ¤ ê°’ ì…‹íŒ… ë° ë²„í¼ ìƒì„±
 	{
 		m_vecIndex.push_back(0);
 		m_vecIndex.push_back(1);
@@ -61,45 +61,45 @@ void Sprite::InitSprite(wstring key, float u1, float v1, float u2, float v2, int
 		m_vecIndex.push_back(2);
 		m_vecIndex.push_back(3);
 
-		// ¹öÆÛ ¼³Á¤°ª
+		// ë²„í¼ ì„¤ì •ê°’
 		D3D11_BUFFER_DESC desc = { 0, };
 		desc.Usage = D3D11_USAGE_DEFAULT;
 		desc.ByteWidth = sizeof(UINT) * m_vecIndex.size();
 		desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		// ¹öÆÛ¿¡ ´ãÀ» µ¥ÀÌÅÍ
+		// ë²„í¼ì— ë‹´ì„ ë°ì´í„°
 		D3D11_SUBRESOURCE_DATA data = { 0, };
 		data.pSysMem = &m_vecIndex[0];
 
-		// ¹öÆÛ »ý¼º(IN ¹öÆÛ ¼³Á¤°ª, IN µ¥ÀÌÅÍ, OUT ¸¸µé¾îÁø ¹öÆÛ¿¡ ´ëÇÑ Æ÷ÀÎÅÍ)
+		// ë²„í¼ ìƒì„±(IN ë²„í¼ ì„¤ì •ê°’, IN ë°ì´í„°, OUT ë§Œë“¤ì–´ì§„ ë²„í¼ì— ëŒ€í•œ í¬ì¸í„°)
 		HRESULT hr = Device->CreateBuffer(&desc, &data, &m_pIndexBuffer);
 		assert(SUCCEEDED(hr));
 	}
 
-	// »ö»ó °ª ¼³Á¤ ¹× ¹öÆÛ »ý¼º
+	// ìƒ‰ìƒ ê°’ ì„¤ì • ë° ë²„í¼ ìƒì„±
 	{
 		m_stColor = D3DXCOLOR(1, 1, 1, 1);
 
-		// ¹öÆÛ ¼³Á¤°ª
+		// ë²„í¼ ì„¤ì •ê°’
 		D3D11_BUFFER_DESC desc = { 0, };
 		desc.Usage = D3D11_USAGE_DEFAULT;
 		desc.ByteWidth = sizeof(D3DXCOLOR);
 		desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		// ¹öÆÛ¿¡ ´ãÀ» µ¥ÀÌÅÍ
+		// ë²„í¼ì— ë‹´ì„ ë°ì´í„°
 		D3D11_SUBRESOURCE_DATA data = { 0, };
 		data.pSysMem = &m_stColor;
 
-		// ¹öÆÛ »ý¼º(IN ¹öÆÛ ¼³Á¤°ª, IN µ¥ÀÌÅÍ, OUT ¸¸µé¾îÁø ¹öÆÛ¿¡ ´ëÇÑ Æ÷ÀÎÅÍ)
+		// ë²„í¼ ìƒì„±(IN ë²„í¼ ì„¤ì •ê°’, IN ë°ì´í„°, OUT ë§Œë“¤ì–´ì§„ ë²„í¼ì— ëŒ€í•œ í¬ì¸í„°)
 		HRESULT hr = Device->CreateBuffer(&desc, &data, &m_pColorBuffer);
 		assert(SUCCEEDED(hr));
 	}
 
-	// ¼ÎÀÌ´õ Å¬·¡½º »ý¼º
+	// ì…°ì´ë” í´ëž˜ìŠ¤ ìƒì„±
 	{
 		m_pShader = new Shader(L"Sprite");
 		m_pShader->CreateinputLayout(PTElementDesc, PTElementCount);
 	}
 
-	// º¸´õ¶óÀÎ ¹öÆÛ »ý¼º
+	// ë³´ë”ë¼ì¸ ë²„í¼ ìƒì„±
 	{
 		this->CreateBorderVertexBuffer(0);
 	}

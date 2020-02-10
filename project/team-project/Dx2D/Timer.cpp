@@ -4,22 +4,22 @@
 
 Timer::Timer()
 {
-	__int64 periodFrenquency;	// ½Ã°£ ¾÷µ¥ÀÌÆ® °£°Ý ÃÊºÐÇÒ
+	__int64 periodFrenquency;	// ì‹œê°„ ì—…ë°ì´íŠ¸ ê°„ê²© ì´ˆë¶„í• 
 
-	// °í¼º´É Å¸ÀÌ¸Ó Áö¿ø ¿©ºÎ : ¸¶ÀÌÅ©·Î ¼¼ÄÁµå (1 / 1,000,000)
+	// ê³ ì„±ëŠ¥ íƒ€ì´ë¨¸ ì§€ì› ì—¬ë¶€ : ë§ˆì´í¬ë¡œ ì„¸ì»¨ë“œ (1 / 1,000,000)
 	if (QueryPerformanceFrequency((LARGE_INTEGER*)&periodFrenquency))
 	{
 		m_isHardware = true;
 		QueryPerformanceCounter((LARGE_INTEGER*)&m_nLastTime);
 
-		// ÃÊ´ç ½Ã°£ °è»ê ¹üÀ§
+		// ì´ˆë‹¹ ì‹œê°„ ê³„ì‚° ë²”ìœ„
 		m_fTimeScale = 1.0f / periodFrenquency;
 	}
 	else
 	{
 		m_isHardware = false;
 		m_nLastTime = timeGetTime();
-		m_fTimeScale = 0.001f; // ¹Ð¸®¼¼ÄÁµå (1 / 1,000)
+		m_fTimeScale = 0.001f; // ë°€ë¦¬ì„¸ì»¨ë“œ (1 / 1,000)
 	}
 
 	InitTimer();
@@ -58,12 +58,12 @@ void Timer::Update(float lockFPS)
 		m_nCurrTime = timeGetTime();
 	}
 
-	// ¸¶Áö¸· ½Ã°£À¸·Î ºÎÅÍ ÇöÀç ½Ã°£±îÁöÀÇ °æ°ú ½Ã°£ (ÃÊ´ÜÀ§)
+	// ë§ˆì§€ë§‰ ì‹œê°„ìœ¼ë¡œ ë¶€í„° í˜„ìž¬ ì‹œê°„ê¹Œì§€ì˜ ê²½ê³¼ ì‹œê°„ (ì´ˆë‹¨ìœ„)
 	m_fDeltaTime = (m_nCurrTime - m_nLastTime) * m_fTimeScale;
 
 	if (lockFPS > 0.0f)
 	{
-		// ÇÁ·¹ÀÓ Á¦ÇÑ
+		// í”„ë ˆìž„ ì œí•œ
 		while (m_fTimeScale > 0.0f && m_fDeltaTime < (1.0f / lockFPS))
 		{
 			if (m_isHardware)
@@ -80,7 +80,7 @@ void Timer::Update(float lockFPS)
 	m_fElapsedTime += m_fDeltaTime;
 	m_fWorldTime += m_fDeltaTime;
 
-	if (m_fElapsedTime > 1.0f) // 1ÃÊ
+	if (m_fElapsedTime > 1.0f) // 1ì´ˆ
 	{
 		m_nFrameRate = m_nFPSFrameCount;
 		m_nFPSFrameCount = 0;

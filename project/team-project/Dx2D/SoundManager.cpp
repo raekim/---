@@ -88,14 +88,14 @@ void SoundManager::Play(string key, float volume)
 
 	for (int i = 0; i < SOUNDBUFFER; i++)
 	{
-		m_ppChannel[i]->isPlaying(&isPlay);		// ºóÃ¤³Î Ã£±â
+		m_ppChannel[i]->isPlaying(&isPlay);		// ë¹ˆì±„ë„ ì°¾ê¸°
 
 		if (!isPlay && m_mapIndex[key] == -1)
 		{
 			m_pSystem->playSound(FMOD_CHANNEL_FREE, m_mapSound[key], false, &m_ppChannel[i]);
 			m_ppChannel[i]->setVolume(volume);
 
-			m_mapIndex[key] = i; // Àç»ı ÁßÀÎ Ã¤³Î ÀúÀå
+			m_mapIndex[key] = i; // ì¬ìƒ ì¤‘ì¸ ì±„ë„ ì €ì¥
 			break;
 		}
 	}

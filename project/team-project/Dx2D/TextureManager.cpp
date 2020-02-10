@@ -22,7 +22,7 @@ void TextureManager::AddTexture(wstring key, wstring file, wstring path)
 
 	Texture texture;
 
-	// ÆÄÀÏ Á¤º¸ ÀĞ±â (»çÀÌÁî °ª »ç¿ë)
+	// íŒŒì¼ ì •ë³´ ì½ê¸° (ì‚¬ì´ì¦ˆ ê°’ ì‚¬ìš©)
 	{
 		HRESULT hr;
 
@@ -30,7 +30,7 @@ void TextureManager::AddTexture(wstring key, wstring file, wstring path)
 		assert(SUCCEEDED(hr));
 	}
 
-	// ÀÌ¹ÌÁö ·Îµå
+	// ì´ë¯¸ì§€ ë¡œë“œ
 	{
 		HRESULT hr;
 

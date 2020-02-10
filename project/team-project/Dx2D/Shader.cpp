@@ -33,7 +33,7 @@ Shader::~Shader()
 
 void Shader::CreateinputLayout(D3D11_INPUT_ELEMENT_DESC * desc, UINT count)
 {
-	// »ç¿ëÇÒ ·¹ÀÌ¾Æ¿ô ¼ÂÆÃ
+	// ì‚¬ìš©í•  ë ˆì´ì•„ì›ƒ ì…‹íŒ…
 	{
 		HRESULT hr = Device->CreateInputLayout(desc, count,
 			VsBlob->GetBufferPointer(), VsBlob->GetBufferSize(), &m_pVertexLayout);

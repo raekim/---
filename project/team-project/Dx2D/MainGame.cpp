@@ -16,25 +16,25 @@ void MainGame::SetViewProjectionMatrixes()
 {
 	ViewProjectionDesc VPDesc;
 
-	// ºä ¸ÅÆ®¸¯½º ¼ÂÆÃ
+	// ë·° ë§¤íŠ¸ë¦­ìŠ¤ ì…‹íŒ…
 	D3DXVECTOR3 eye(0, 0, -1);
 	D3DXVECTOR3 lookAt(0, 0, 0);
 	D3DXVECTOR3 up(0, 1, 0);
 	D3DXMatrixLookAtLH(&VPDesc.View, &eye, &lookAt, &up);
 	D3DXMatrixTranspose(&VPDesc.View, &VPDesc.View);
-	// ¼ÎÀÌ´õ¿¡¼­ ¸ÅÆ®¸¯½ºÀÇ Çà°ú ¿­ÀÇ ¹æÇâÀÌ ¹Ù²¸ÀÖ±â ¶§¹®¿¡ Æ®·£½ºÆ÷Áî¸¦ ÇØÁÖ¾î¾ß ÇÑ´Ù.
+	// ì…°ì´ë”ì—ì„œ ë§¤íŠ¸ë¦­ìŠ¤ì˜ í–‰ê³¼ ì—´ì˜ ë°©í–¥ì´ ë°”ê»´ìžˆê¸° ë•Œë¬¸ì— íŠ¸ëžœìŠ¤í¬ì¦ˆë¥¼ í•´ì£¼ì–´ì•¼ í•œë‹¤.
 
-	// ÇÁ·ÎÁ§¼Ç ¸ÅÆ®¸¯½º ¼ÂÆÃ
+	// í”„ë¡œì ì…˜ ë§¤íŠ¸ë¦­ìŠ¤ ì…‹íŒ…
 	D3DXMatrixOrthoOffCenterLH(&VPDesc.Projection, 0, (float)WINSIZEX, 0, (float)WINSIZEY, -1, 1);
 	D3DXMatrixTranspose(&VPDesc.Projection, &VPDesc.Projection);
 
-	// ¹öÆÛ »ý¼º
+	// ë²„í¼ ìƒì„±
 	D3D11_BUFFER_DESC desc = { 0, };
 	desc.Usage = D3D11_USAGE_DEFAULT;
 	desc.ByteWidth = sizeof(ViewProjectionDesc);
 	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 
-	// ¹öÆÛ¿¡ ´ãÀ» µ¥ÀÌÅÍ
+	// ë²„í¼ì— ë‹´ì„ ë°ì´í„°
 	D3D11_SUBRESOURCE_DATA data = { 0, };
 	data.pSysMem = &VPDesc;
 
@@ -80,7 +80,7 @@ void MainGame::DeleteGameClasses()
 
 void MainGame::Update()
 {
-	if (g_pKeyManager->isOnceKeyDown(VK_F9)) // °ÔÀÓ ÃÊ±âÈ­
+	if (g_pKeyManager->isOnceKeyDown(VK_F9)) // ê²Œìž„ ì´ˆê¸°í™”
 	{
 		this->Init();
 	}
@@ -92,11 +92,11 @@ void MainGame::Render()
 	DeviceContext->ClearRenderTargetView(RTV, (float*)background);
 	DeviceContext->VSSetConstantBuffers(0, 1, &m_pViewProjBuffer);
 
-	DeviceContext->OMSetBlendState(m_pAlphaBlendState, NULL, 0xFF);	// ¹ÝÅõ¸í »ç¿ë ¼³Á¤
+	DeviceContext->OMSetBlendState(m_pAlphaBlendState, NULL, 0xFF);	// ë°˜íˆ¬ëª… ì‚¬ìš© ì„¤ì •
 
 	// Render
 
-	DeviceContext->OMSetBlendState(m_pNormalBlendState, NULL, 0xFF); // ¹ÝÅõ¸í ¹Ì»ç¿ë(±âº»°ª) ¼³Á¤
+	DeviceContext->OMSetBlendState(m_pNormalBlendState, NULL, 0xFF); // ë°˜íˆ¬ëª… ë¯¸ì‚¬ìš©(ê¸°ë³¸ê°’) ì„¤ì •
 
 	ImGui::Render();
 
