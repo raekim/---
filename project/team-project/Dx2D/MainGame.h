@@ -12,7 +12,6 @@ private:
 
 private:
 	// Game Classes
-	Sprite* test_sprite;
 public:
 	MainGame();
 	~MainGame();

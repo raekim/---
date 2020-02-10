@@ -40,6 +40,28 @@ void Clip::SetPosition(D3DXVECTOR2 v)
 	this->SetPosition(v.x, v.y);
 }
 
+void Clip::SetLBPosition(float x, float y)
+{
+	for (Frame* p : m_vecFrame)
+		p->pSprite->SetLBPosition(x, y);
+}
+
+void Clip::SetLBPosition(D3DXVECTOR2 v)
+{
+	this->SetLBPosition(v.x, v.y);
+}
+
+void Clip::SetRotation(float x, float y, float z)
+{
+	for (Frame* p : m_vecFrame)
+		p->pSprite->SetRotation(x, y, z);
+}
+
+void Clip::SetRotation(D3DXVECTOR3 r)
+{
+	this->SetRotation(r.x, r.y, r.z);
+}
+
 void Clip::SetScale(float x, float y)
 {
 	for (Frame* p : m_vecFrame)
@@ -51,15 +73,11 @@ void Clip::SetScale(D3DXVECTOR2 s)
 	this->SetScale(s.x, s.y);
 }
 
-
 void Clip::SetConstantScale(float x, float y)
 {
 	for (Frame* p : m_vecFrame)
 	{
-		float scaleX = x / p->pSprite->GetWidth();
-		float scaleY = y / p->pSprite->GetHeight();
-
-		p->pSprite->SetSize(scaleX, scaleY);
+		p->pSprite->SetConstantScale(x, y);
 	}
 }
 
@@ -68,17 +86,10 @@ void Clip::SetConstantScale(D3DXVECTOR2 s)
 	this->SetConstantScale(s.x, s.y);
 }
 
-void Clip::ApplyTransform()
-{
-	for (Frame* p : m_vecFrame)
-		p->pSprite->Update();
-}
-
 void Clip::Play()
 {
 	m_nCurrFrame = m_nStartFrame;
 	m_isPlaying = true;
-	m_fElapsedTime = 0; // mycode
 }
 
 void Clip::Play(UINT startFrame)
@@ -108,7 +119,7 @@ void Clip::PlayReverse()
 
 void Clip::Stop()
 {
-	//m_nCurrFrame = m_nStartFrame;
+	m_nCurrFrame = m_nStartFrame;
 	m_isPlaying = false;
 }
 
@@ -124,45 +135,44 @@ void Clip::Resume()
 
 void Clip::Update()
 {
-	m_vecFrame[m_nCurrFrame]->pSprite->Update();
-
-	if (m_isPlaying == false) return;
-
-	Frame* frame = m_vecFrame[m_nCurrFrame];
-
-	float playingTime = frame->fPlayTime * (1 / m_fSpeed);
-	m_fElapsedTime += g_pTimeManager->GetDeltaTime();
-
-	if (playingTime > m_fElapsedTime) return;
-
-	switch (m_ePlayMode)
+	if (m_isPlaying)
 	{
-	case PlayMode::Once:
-		m_nCurrFrame++;
-		if (m_nCurrFrame == m_vecFrame.size())
+		Frame* frame = m_vecFrame[m_nCurrFrame];
+
+		float playingTime = frame->fPlayTime * (1 / m_fSpeed);
+		m_fElapsedTime += g_pTimeManager->GetDeltaTime();
+
+		if (playingTime <= m_fElapsedTime)
 		{
-			m_nCurrFrame = m_vecFrame.size() - 1;		// stop at the last frame
-			Stop();
+			switch (m_ePlayMode)
+			{
+			case PlayMode::Once:
+				m_nCurrFrame++;
+				if (m_nCurrFrame == m_vecFrame.size())
+					Stop();
+				break;
+			case PlayMode::Loop:
+				m_nCurrFrame++;
+				if (m_nCurrFrame == m_vecFrame.size())
+					m_nCurrFrame = m_nStartFrame;
+				break;
+			case PlayMode::ReverseOnce:
+				m_nCurrFrame--;
+				if (m_nCurrFrame < m_nStartFrame)
+					Stop();
+				break;
+			case PlayMode::ReverseLoop:
+				m_nCurrFrame--;
+				if (m_nCurrFrame < m_nStartFrame)
+					m_nCurrFrame = m_vecFrame.size() - 1;
+				break;
+			}
+
+			m_fElapsedTime = 0.0f;
 		}
-		break;
-	case PlayMode::Loop:
-		m_nCurrFrame++;
-		if (m_nCurrFrame == m_vecFrame.size())
-			m_nCurrFrame = m_nStartFrame;
-		break;
-	case PlayMode::ReverseOnce:
-		m_nCurrFrame--;
-		if (m_nCurrFrame < m_nStartFrame)
-			Stop();
-		break;
-	case PlayMode::ReverseLoop:
-		m_nCurrFrame--;
-		if (m_nCurrFrame < m_nStartFrame)
-			m_nCurrFrame = m_vecFrame.size() - 1;
-		break;
 	}
 
-	m_fElapsedTime = 0.0f;
+	m_vecFrame[m_nCurrFrame]->pSprite->Update();
 }
 
 void Clip::Render()
