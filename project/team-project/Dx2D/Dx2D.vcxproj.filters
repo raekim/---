@@ -177,4 +177,9 @@
       <Filter>Dx2D Framework\0. Shader</Filter>
     </FxCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig">
+      <Filter>소스 파일</Filter>
+    </None>
+  </ItemGroup>
 </Project>
