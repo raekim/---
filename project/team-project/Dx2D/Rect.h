@@ -18,4 +18,10 @@ public:
 
 	void SetSpeed(float s) { m_fSpeed = s; }
 	void SetAngle(float a) { m_fAngle = a; }
+
+	float GetRight() { return GetPosition().x + GetSize().x*0.5f; }
+	float GetLeft() { return GetPosition().x - GetSize().x*0.5f; }
+	float GetTop() { return GetPosition().y + GetSize().y*0.5f; }
+	float GetBottom() { return GetPosition().y - GetSize().y*0.5f; }
+
 };

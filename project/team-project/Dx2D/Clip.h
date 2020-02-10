@@ -37,21 +37,16 @@ public:
 
 	void SetSpeed(float s) { m_fSpeed = s; }
 
-	D3DXMATRIX& GetWMatrix() { return m_vecFrame[m_nCurrFrame]->pSprite->GetWMatrix(); }
-
 	void SetPosition(float x, float y);
 	void SetPosition(D3DXVECTOR2 v);
-	void SetLBPosition(float x, float y);
-	void SetLBPosition(D3DXVECTOR2 v);
-
-	void SetRotation(float x, float y, float z);
-	void SetRotation(D3DXVECTOR3 r);
 
 	void SetScale(float x, float y);
 	void SetScale(D3DXVECTOR2 s);
 
 	void SetConstantScale(float x, float y);
 	void SetConstantScale(D3DXVECTOR2 s);
+
+	void ApplyTransform();
 
 	void Play();
 	void Play(UINT startFrame);
@@ -62,8 +57,5 @@ public:
 
 	void Update();
 	void Render();
-
-	float GetWidth() { return m_vecFrame[m_nCurrFrame]->pSprite->GetWidth(); }
-	float GetHeight() { return m_vecFrame[m_nCurrFrame]->pSprite->GetHeight(); }
 };
 

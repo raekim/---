@@ -29,6 +29,6 @@ public:
 	float GetWorldTime() const { return m_fWorldTime; }
 
 	float GetTimeScale() { return m_fTimeScale; }
-	void SetTimeScale(float s) { m_fTimeScale = s; }
+	void SetTimeScale(float s) { m_fTimeScale = s;}
 };
 

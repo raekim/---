@@ -38,13 +38,10 @@
       <UniqueIdentifier>{92938835-7902-467e-b294-263d8c631ab7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Dx2D Framework\4. GameClasses">
-      <UniqueIdentifier>{8b438f2b-bdb5-4b37-8c3e-a6177688e89a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Dx2D Framework\2. Manager\Sound">
-      <UniqueIdentifier>{3ac57d17-9cb1-4daa-a82b-e0e8e5758d42}</UniqueIdentifier>
+      <UniqueIdentifier>{2bc78737-3adb-48a9-b52d-773ef1c7c2cb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Dx2D Framework\2. Manager\Text">
-      <UniqueIdentifier>{93f13527-d5b2-4253-8ad8-51c578d8f590}</UniqueIdentifier>
+      <UniqueIdentifier>{00848233-8d42-46c9-9cdf-164b8f51a1c4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -108,18 +105,6 @@
     <ClInclude Include="TextureManager.h">
       <Filter>Dx2D Framework\2. Manager\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Dx2D Framework\4. GameClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Dx2D Framework\4. GameClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="MapObject.h">
-      <Filter>Dx2D Framework\4. GameClasses</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundManager.h">
-      <Filter>Dx2D Framework\2. Manager\Sound</Filter>
-    </ClInclude>
     <ClInclude Include="TextManager.h">
       <Filter>Dx2D Framework\2. Manager\Text</Filter>
     </ClInclude>
@@ -166,18 +151,6 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Dx2D Framework\2. Manager\Texture</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Dx2D Framework\4. GameClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Dx2D Framework\4. GameClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="MapObject.cpp">
-      <Filter>Dx2D Framework\4. GameClasses</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundManager.cpp">
-      <Filter>Dx2D Framework\2. Manager\Sound</Filter>
     </ClCompile>
     <ClCompile Include="TextManager.cpp">
       <Filter>Dx2D Framework\2. Manager\Text</Filter>

@@ -146,18 +146,15 @@ void Sprite::Render()
 
 	Primitive2DObejct::Render();
 }
-
 void Sprite::SetConstantScale(float x, float y)
 {
 	m_vSize.x = x / m_fWidth;
 	m_vSize.y = y / m_fHeight;
 }
-
 void Sprite::SetConstantScale(D3DXVECTOR2 s)
 {
 	this->SetConstantScale(s.x, s.y);
 }
-
 void Sprite::SetLBPosition(float x, float y)
 {
 	this->SetPosition(x + GetWidth() * 0.5f, y + GetHeight() * 0.5f);

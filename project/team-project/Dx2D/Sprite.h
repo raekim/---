@@ -23,11 +23,13 @@ public:
 	virtual void Render() override;
 
 	void SetConstantScale(float x, float y);
+
 	void SetConstantScale(D3DXVECTOR2 s);
 
-	float GetWidth() { return m_fWidth * m_vSize.x; }
-	float GetHeight() { return m_fHeight * m_vSize.y; }
+	void SetLBPosition(float x, float y);
 
-	virtual void SetLBPosition(float x, float y) override;
+	float GetWidth() { return m_fWidth; }
+	float GetHeight() { return m_fHeight; }
+
 };
 

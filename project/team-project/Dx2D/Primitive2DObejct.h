@@ -4,32 +4,28 @@ class Primitive2DObejct
 {
 protected:
 	D3DXMATRIX				m_matWorld;			// SRT 매트릭스 : 변환 행렬
-	D3DXMATRIX				m_matSRT;			// SRT 매트릭스 : 충돌 검사용
 	D3DXVECTOR2				m_vPosition;
 	D3DXVECTOR2				m_vSize;
-	D3DXVECTOR3				m_vRotation;
 
 	vector<T>				m_vecVertex;
 	vector<UINT>			m_vecIndex;
 
 	D3DXCOLOR				m_stColor;			// 모든 버텍스가 공용으로 사용하는 색상값
 
-	/* 기본 도형 렌더 ======================*/
+	/* 셰이더 버퍼들 ======================*/
 	ID3D11Buffer*			m_pWorldBuffer;		// 월드 매트릭스 버퍼
 	ID3D11InputLayout*		m_pVertexLayout;	// 입력 레이아웃 설정값
 	ID3D11Buffer*			m_pVertexBuffer;	// 버텍스 버퍼
 	ID3D11Buffer*			m_pIndexBuffer;		// 인덱스 버퍼
 	ID3D11Buffer*			m_pColorBuffer;		// 색상 버퍼
-	Shader*					m_pShader;			// 셰이더 클래스
-	bool					m_isDraw;
-	/*=====================================*/
+	/*====================================*/
 
-	/* 보더라인 렌더 =========================*/
+	Shader*					m_pShader;			// 셰이더 클래스
+
 	Shader*					m_pBorderShader;	// 보더라인 셰이더 클래스
 	ID3D11Buffer*			m_pBorderBuffer;	// 보더라인 버텍스 버퍼
 	UINT					m_nBVCount;			// 보더라인 버텍스 갯수
 	bool					m_isDrawBorder;
-	/*=====================================*/
 
 protected:
 	void CreateBorderVertexBuffer(int start);
@@ -42,24 +38,15 @@ public:
 	virtual void Update();
 	virtual void Render();
 
-	D3DXMATRIX& GetWMatrix() { return m_matSRT; }
+	void DrawBorder();
 
 	void SetPosition(D3DXVECTOR2 p) { m_vPosition = p; }
 	void SetPosition(float x, float y) { m_vPosition = D3DXVECTOR2(x, y); }
-	D3DXVECTOR2& GetPosition() { return m_vPosition; }
-
-	virtual void SetLBPosition(float x, float y);
-	void SetLBPosition(D3DXVECTOR2 p) {	SetLBPosition(p.x, p.y); }
-
-	void SetRotation(D3DXVECTOR3 r) { m_vRotation = r; };
-	void SetRotation(float x, float y, float z) { SetRotation(D3DXVECTOR3(x, y, z)); };
-	D3DXVECTOR3& GetRotation() { return m_vRotation; }
+	D3DXVECTOR2 GetPosition() { return m_vPosition; }
 
 	void SetSize(D3DXVECTOR2 s) { m_vSize = s; }
 	void SetSize(float x, float y) { m_vSize = D3DXVECTOR2(x, y); }
-	D3DXVECTOR2& GetSize() { return m_vSize; }
-
-	void SetDraw(bool b) { m_isDraw = b; }
+	D3DXVECTOR2 GetSize() { return m_vSize; }
 
 	void SetColor(D3DXCOLOR c) { m_stColor = c; }
 	void SetBorder(bool b) { m_isDrawBorder = b; }
@@ -120,68 +107,66 @@ inline void Primitive2DObejct<T>::Init()
 	m_vPosition = { 50, 50 };
 	m_vSize = { 100, 100 };
 
-	m_isDraw = true;
 	m_isDrawBorder = false;
-
-	m_vRotation = D3DXVECTOR3(0, 0, 0);
 }
 
 template<typename T>
 inline void Primitive2DObejct<T>::Update()
 {
-	D3DXMATRIX Scale, Translate, RotX, RotY, RotZ;
+	D3DXMATRIX Scale, Translate;
 	
 	D3DXMatrixScaling(&Scale, m_vSize.x, m_vSize.y, 1);
 	D3DXMatrixTranslation(&Translate, m_vPosition.x, m_vPosition.y, 0);
 	
-	D3DXMatrixRotationX(&RotX, m_vRotation.x);
-	D3DXMatrixRotationY(&RotY, m_vRotation.y);
-	D3DXMatrixRotationZ(&RotZ, m_vRotation.z);
-
-	m_matWorld = Scale * RotX * RotY * RotZ * Translate;
-	m_matSRT = m_matWorld;
+	m_matWorld = Scale * Translate;
 	D3DXMatrixTranspose(&m_matWorld, &m_matWorld);
 }
 
 template<typename T>
 inline void Primitive2DObejct<T>::Render()
 {
+	m_pShader->SetShader();
+
 	DeviceContext->UpdateSubresource(m_pWorldBuffer, 0, 0, &m_matWorld, 0, 0);
 	DeviceContext->VSSetConstantBuffers(1, 1, &m_pWorldBuffer);
+	DeviceContext->UpdateSubresource(m_pColorBuffer, 0, 0, &m_stColor, 0, 0);
+	DeviceContext->PSSetConstantBuffers(0, 1, &m_pColorBuffer);
 
-	if (m_isDraw)
-	{
-		m_pShader->SetShader();
+	// mycode
+	DeviceContext->UpdateSubresource(m_pVertexBuffer, 0, NULL, &m_vecVertex[0], 0, 0);
 
-		DeviceContext->UpdateSubresource(m_pColorBuffer, 0, 0, &m_stColor, 0, 0);
-		DeviceContext->PSSetConstantBuffers(0, 1, &m_pColorBuffer);
+	UINT stride = sizeof(T);
+	UINT offset = 0;
 
-		UINT stride = sizeof(T);
-		UINT offset = 0;
+	DeviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
+	DeviceContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DeviceContext->DrawIndexed(m_vecIndex.size(), 0, 0);
 
-		DeviceContext->IASetVertexBuffers(0, 1, &m_pVertexBuffer, &stride, &offset);
-		DeviceContext->IASetIndexBuffer(m_pIndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		DeviceContext->DrawIndexed(m_vecIndex.size(), 0, 0);
-	}
-
-	if (m_isDrawBorder)
-	{
-		m_pBorderShader->SetShader();
-
-		DeviceContext->UpdateSubresource(m_pColorBuffer, 0, 0, &D3DXCOLOR(1, 0, 0, 1), 0, 0);
-
-		UINT stride = sizeof(PCVertex);
-		UINT offset = 0;
-
-		DeviceContext->IASetVertexBuffers(0, 1, &m_pBorderBuffer, &stride, &offset);
-		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
-		DeviceContext->Draw(m_nBVCount, 0);
-	}
+	//if (::g_isDrawBorder)
+	//{
+	//	DrawBorder(stride, offset);
+	//}
 }
 
 template<typename T>
-inline void Primitive2DObejct<T>::SetLBPosition(float x, float y)
+void Primitive2DObejct<T>::DrawBorder()
 {
-	this->SetPosition(x + m_vSize.x * 0.5f, y + m_vSize.y * 0.5f);
+	m_pShader->SetShader();
+
+	DeviceContext->UpdateSubresource(m_pWorldBuffer, 0, 0, &m_matWorld, 0, 0);
+	DeviceContext->VSSetConstantBuffers(1, 1, &m_pWorldBuffer);
+	DeviceContext->UpdateSubresource(m_pColorBuffer, 0, 0, &m_stColor, 0, 0);
+	DeviceContext->PSSetConstantBuffers(0, 1, &m_pColorBuffer);
+
+	// mycode
+	DeviceContext->UpdateSubresource(m_pVertexBuffer, 0, NULL, &m_vecVertex[0], 0, 0);
+
+	UINT stride = sizeof(T);
+	UINT offset = 0;
+
+	DeviceContext->UpdateSubresource(m_pColorBuffer, 0, 0, &D3DXCOLOR(1, 0, 0, 1), 0, 0);
+	DeviceContext->IASetVertexBuffers(0, 1, &m_pBorderBuffer, &stride, &offset);
+	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	DeviceContext->Draw(m_nBVCount, 0);
 }

@@ -69,7 +69,7 @@ Rect::Rect()
 
 	// 색상 값 설정 및 버퍼 생성
 	{
-		m_stColor = D3DXCOLOR(0, 1, 0, 1);
+		m_stColor = D3DXCOLOR(0, 0, 0, 0);
 
 		// 버퍼 설정값
 		D3D11_BUFFER_DESC desc = { 0, };

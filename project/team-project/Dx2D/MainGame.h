@@ -1,9 +1,4 @@
 #pragma once
-#include "iGameNode.h"
-#include "Player.h"
-#include "Map.h"
-#include "MapObject.h"
-
 
 class MainGame : public iGameNode
 {
@@ -16,20 +11,17 @@ private:
 	void SetBlendStates();	// 옵션별 블렌드 상태값 생성
 
 private:
-	Player*			m_pPlayer;
-	Map*			m_pMap;
-	MapObject*		m_pMapObject;
-
-	Rect*			m_pRect;
-
+	// Game Classes
+	Sprite* test_sprite;
 public:
 	MainGame();
 	~MainGame();
 
+	virtual void Init() override;
 	void CreateGameClasses();
 	void DeleteGameClasses();
-	virtual void Init() override;
 	virtual void Update() override;
 	virtual void Render() override;
+	virtual void Release() override;
 };
 

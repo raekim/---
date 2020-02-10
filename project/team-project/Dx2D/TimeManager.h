@@ -22,7 +22,5 @@ public:
 
 	float GetTimeScale() { return m_pTimer->GetTimeScale(); }
 	void SetTimeScale(float s) { m_pTimer->SetTimeScale(s); }
-
-	int GetFPS() { return m_pTimer->GetFPS(); }
 };
 
