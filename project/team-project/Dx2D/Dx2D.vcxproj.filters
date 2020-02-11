@@ -108,6 +108,15 @@
     <ClInclude Include="TextManager.h">
       <Filter>Dx2D Framework\2. Manager\Text</Filter>
     </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Dx2D Framework\4. GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>Dx2D Framework\4. GameClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMapManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -154,6 +163,15 @@
     </ClCompile>
     <ClCompile Include="MainGame.cpp">
       <Filter>Dx2D Framework\1. MainClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Dx2D Framework\4. GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>Dx2D Framework\4. GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMapManager.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
