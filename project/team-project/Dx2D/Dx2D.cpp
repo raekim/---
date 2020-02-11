@@ -245,6 +245,21 @@ void InitDirectX(HINSTANCE)
 
 		DeviceContext->RSSetViewports(1, &viewport);
 	}
+	
+	// Disable CullMode
+	{
+		D3D11_RASTERIZER_DESC desc;
+		ZeroMemory(&desc, sizeof(D3D11_RASTERIZER_DESC));
+
+		desc.CullMode = D3D11_CULL_NONE;
+		desc.FillMode = D3D11_FILL_SOLID;
+
+		ID3D11RasterizerState* rasterState;
+		Device->CreateRasterizerState(&desc, &rasterState);
+
+		DeviceContext->RSSetState(rasterState);
+		SAFE_RELEASE(rasterState);
+	}
 }
 
 //
