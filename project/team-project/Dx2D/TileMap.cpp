@@ -1,18 +1,18 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "TileMap.h"
 
 
 TileMap::TileMap()
 {
-	// 타일맵 배열 초기화
-	m_tileMapInfo = vector<vector<int>>(m_mapHeight / TILESIZE, vector<int>(m_mapWidth / TILESIZE, 0));
+
 }
 
 TileMap::TileMap(int w, int h)
 {
 	m_mapWidth = w;
 	m_mapHeight = h;
-	TileMap();
+	// 타일맵 배열 초기화
+	m_tileMapInfo = vector<vector<int>>(m_mapHeight / TILESIZE, vector<int>(m_mapWidth / TILESIZE, 0));
 }
 
 
@@ -61,7 +61,10 @@ void TileMap::Load(map<int, Tile*>& templates)
 		for (int j = 0; j < m_mapWidth; ++j)
 		{
 			// int(key)로부터 실제 tile(value)정보를 꺼내와 타일맵으로 저장한다
-			m_tileMap[i][j] = *(templates[m_tileMapInfo[i][j]]);
+			if (m_tileMapInfo[i][j] != 0)	// 0은 비어있는 것
+			{
+				m_tileMap[i][j] = *(templates[m_tileMapInfo[i][j] + 1]);
+			}
 		}
 	}
 }

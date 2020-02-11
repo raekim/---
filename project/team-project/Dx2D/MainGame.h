@@ -1,18 +1,18 @@
 #pragma once
-
+#include "TileMapManager.h"
 class MainGame : public iGameNode
 {
 private:
-	ID3D11Buffer* m_pViewProjBuffer;	// ºä, ÇÁ·ÎÁ§¼Ç ¸ÅÆ®¸¯½º ¹öÆÛ
-	void SetViewProjectionMatrixes();	// ºä, ÇÁ·ÎÁ§¼Ç ¸ÅÆ®¸¯½º ¼ÂÆÃ ¹× ¹öÆÛ »ı¼º
+	ID3D11Buffer* m_pViewProjBuffer;	// ë·°, í”„ë¡œì ì…˜ ë§¤íŠ¸ë¦­ìŠ¤ ë²„í¼
+	void SetViewProjectionMatrixes();	// ë·°, í”„ë¡œì ì…˜ ë§¤íŠ¸ë¦­ìŠ¤ ì…‹íŒ… ë° ë²„í¼ ìƒì„±
 
-	ID3D11BlendState*	m_pNormalBlendState;	// ±âº» ºí·»µå ¿É¼Ç
-	ID3D11BlendState*	m_pAlphaBlendState;		// ¹İÅõ¸í ºí·»µå ¿É¼Ç
-	void SetBlendStates();	// ¿É¼Çº° ºí·»µå »óÅÂ°ª »ı¼º
+	ID3D11BlendState*	m_pNormalBlendState;	// ê¸°ë³¸ ë¸”ë Œë“œ ì˜µì…˜
+	ID3D11BlendState*	m_pAlphaBlendState;		// ë°˜íˆ¬ëª… ë¸”ë Œë“œ ì˜µì…˜
+	void SetBlendStates();	// ì˜µì…˜ë³„ ë¸”ë Œë“œ ìƒíƒœê°’ ìƒì„±
 
 private:
 	// Game Classes
-	
+	TileMapManager* m_tileMapManager;
 public:
 	MainGame();
 	~MainGame();

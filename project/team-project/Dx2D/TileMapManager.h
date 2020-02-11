@@ -1,9 +1,9 @@
-﻿#pragma once
+#pragma once
 #include "TileMap.h"
 #include "Tile.h"
 class TileMapManager : public iGameNode
 {
-	vector<TileMap>		m_tileMaps;
+	vector<TileMap*>	m_tileMaps;
 	map<int, Tile*>		m_tileTemplates;	// id(int) : 타일 매핑해주는 맵
 	int					m_currentLoadedMapIdx;	// 현재 로딩된 맵 인덱스
 public:

@@ -1,4 +1,4 @@
-﻿#include "stdafx.h"
+#include "stdafx.h"
 #include "MainGame.h"
 
 
@@ -8,6 +8,7 @@ MainGame::MainGame()
 
 	SetViewProjectionMatrixes();
 	SetBlendStates();
+	CreateGameClasses();
 
 	this->Init();
 }
@@ -66,12 +67,13 @@ MainGame::~MainGame()
 
 void MainGame::Init()
 {
-
+	m_tileMapManager->Init();
+	m_tileMapManager->LoadMap();
 }
 
 void MainGame::CreateGameClasses()
 {
-
+	m_tileMapManager = new TileMapManager;
 }
 void MainGame::DeleteGameClasses()
 {
@@ -84,6 +86,8 @@ void MainGame::Update()
 	{
 		this->Init();
 	}
+
+	m_tileMapManager->Update();
 }
 
 void MainGame::Render()
@@ -95,6 +99,7 @@ void MainGame::Render()
 	DeviceContext->OMSetBlendState(m_pAlphaBlendState, NULL, 0xFF);	// 반투명 사용 설정
 
 	// Render
+	m_tileMapManager->Render();
 
 	DeviceContext->OMSetBlendState(m_pNormalBlendState, NULL, 0xFF); // 반투명 미사용(기본값) 설정
 
