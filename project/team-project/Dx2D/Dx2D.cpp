@@ -1,4 +1,4 @@
-// Dx2D.cpp: 응용 프로그램의 진입점을 정의합니다.
+// Dx2D.cpp: ?묒슜 ?꾨줈洹몃옩??吏꾩엯?먯쓣 ?뺤쓽?⑸땲??
 //
 
 #include "stdafx.h"
@@ -7,25 +7,25 @@
 
 #define MAX_LOADSTRING 100
 
-// 전역 변수:
-HINSTANCE	g_hInst;                            // 현재 인스턴스입니다.
-HWND		g_hWnd;								// 윈도우 핸들
+// ?꾩뿭 蹂??
+HINSTANCE	g_hInst;                            // ?꾩옱 ?몄뒪?댁뒪?낅땲??
+HWND		g_hWnd;								// ?덈룄???몃뱾
 POINT		g_ptMouse;
 D3DXVECTOR2 g_cameraPos;
 bool		g_isDrawBorder;
-bool		g_mouseLButtonDown;	// 마우스 왼쪽버튼 클릭
+bool		g_mouseLButtonDown;	// 留덉슦???쇱そ踰꾪듉 ?대┃
 
-WCHAR		szTitle[MAX_LOADSTRING] = L"team-project";    // 제목 표시줄 텍스트입니다.
+WCHAR		szTitle[MAX_LOADSTRING] = L"team-project";    // ?쒕ぉ ?쒖떆以??띿뒪?몄엯?덈떎.
 MainGame*	pMG;
 POINT		ptWinSize;
 
-// Dx11 전역 변수:
-IDXGISwapChain*			SwapChain;		// 렌더 버퍼(모든 윈도우) 관리 변수 : 프레젠트
-ID3D11Device*			Device;			// 하나의 장치(창)에 대한 버퍼, 텍스쳐 등 생성 관리를 위한 인터페이스 (CPU)
-ID3D11DeviceContext*	DeviceContext;	// 생성 된 리소스를 관리하기 위한 인터페이스 (GPU -> 텍스쳐 렌더링)
-ID3D11RenderTargetView*	RTV;			// 렌더타겟 지정 포인터
+// Dx11 ?꾩뿭 蹂??
+IDXGISwapChain*			SwapChain;		// ?뚮뜑 踰꾪띁(紐⑤뱺 ?덈룄?? 愿由?蹂??: ?꾨젅?좏듃
+ID3D11Device*			Device;			// ?섎굹???μ튂(李??????踰꾪띁, ?띿뒪爾????앹꽦 愿由щ? ?꾪븳 ?명꽣?섏씠??(CPU)
+ID3D11DeviceContext*	DeviceContext;	// ?앹꽦 ??由ъ냼?ㅻ? 愿由ы븯湲??꾪븳 ?명꽣?섏씠??(GPU -> ?띿뒪爾??뚮뜑留?
+ID3D11RenderTargetView*	RTV;			// ?뚮뜑?寃?吏???ъ씤??
 
-// 이 코드 모듈에 들어 있는 함수의 정방향 선언입니다.
+// ??肄붾뱶 紐⑤뱢???ㅼ뼱 ?덈뒗 ?⑥닔???뺣갑???좎뼵?낅땲??
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 void                InitInstance(HINSTANCE, int);
 void				InitDirectX(HINSTANCE);
@@ -37,11 +37,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ LPWSTR    lpCmdLine,
                      _In_ int       nCmdShow)
 {
-	MyRegisterClass(hInstance);			// 클래스 등록 : 프로그램 등록
-	InitInstance(hInstance, nCmdShow);	// 등록 된 프로그램 초기화
-	InitDirectX(hInstance);				// 다이렉트X 초기화
+	MyRegisterClass(hInstance);			// ?대옒???깅줉 : ?꾨줈洹몃옩 ?깅줉
+	InitInstance(hInstance, nCmdShow);	// ?깅줉 ???꾨줈洹몃옩 珥덇린??
+	InitDirectX(hInstance);				// ?ㅼ씠?됲듃X 珥덇린??
 
-	// 매니져 초기화
+	// 留ㅻ땲??珥덇린??
 	g_pKeyManager->Init();
 	g_pTimeManager->Init();
 	//g_pSoundManager->Init();
@@ -79,7 +79,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	ImGui::Delete();
 	delete pMG;
 
-	// 매니져 해제
+	// 留ㅻ땲???댁젣
 	g_pTextureManager->ReleaseInstance();
 	g_pTimeManager->ReleaseInstance();
 	g_pKeyManager->ReleaseInstance();
@@ -91,9 +91,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 //
-//  함수: MyRegisterClass()
+//  ?⑥닔: MyRegisterClass()
 //
-//  목적: 창 클래스를 등록합니다.
+//  紐⑹쟻: 李??대옒?ㅻ? ?깅줉?⑸땲??
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
@@ -129,18 +129,18 @@ void ActiveClipCursor()
 }
 
 //
-//   함수: InitInstance(HINSTANCE, int)
+//   ?⑥닔: InitInstance(HINSTANCE, int)
 //
-//   목적: 인스턴스 핸들을 저장하고 주 창을 만듭니다.
+//   紐⑹쟻: ?몄뒪?댁뒪 ?몃뱾????ν븯怨?二?李쎌쓣 留뚮벊?덈떎.
 //
-//   설명:
+//   ?ㅻ챸:
 //
-//        이 함수를 통해 인스턴스 핸들을 전역 변수에 저장하고
-//        주 프로그램 창을 만든 다음 표시합니다.
+//        ???⑥닔瑜??듯빐 ?몄뒪?댁뒪 ?몃뱾???꾩뿭 蹂?섏뿉 ??ν븯怨?
+//        二??꾨줈洹몃옩 李쎌쓣 留뚮뱺 ?ㅼ쓬 ?쒖떆?⑸땲??
 //
 void InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   g_hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+   g_hInst = hInstance; // ?몄뒪?댁뒪 ?몃뱾???꾩뿭 蹂?섏뿉 ??ν빀?덈떎.
 
    int nRX = GetSystemMetrics(SM_CXSCREEN);
    int nRY = GetSystemMetrics(SM_CYSCREEN);
@@ -161,11 +161,11 @@ void InitInstance(HINSTANCE hInstance, int nCmdShow)
 	   hInstance,
 	   nullptr);
 
-   assert(hWnd);	// 창 생성에 문제가 있는 경우 프로그램이 종료 되고 오류메시지가 뜬다.
+   assert(hWnd);	// 李??앹꽦??臾몄젣媛 ?덈뒗 寃쎌슦 ?꾨줈洹몃옩??醫낅즺 ?섍퀬 ?ㅻ쪟硫붿떆吏媛 ?щ떎.
 
    g_hWnd = hWnd;
 
-   // 창 사이즈 재설정
+   // 李??ъ씠利??ъ꽕??
    RECT rt = { nWinPosX, nWinPosY, nWinPosX + WINSIZEX + 1, nWinPosY + WINSIZEY + 1};
    AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
 
@@ -184,7 +184,7 @@ void InitDirectX(HINSTANCE)
 {
 	// Create Device and DeviceContext, SwapChain
 	{
-		DXGI_MODE_DESC bufferDesc; // DXGI : 다이렉트X 그래픽 인터페이스
+		DXGI_MODE_DESC bufferDesc; // DXGI : ?ㅼ씠?됲듃X 洹몃옒???명꽣?섏씠??
 		ZeroMemory(&bufferDesc, sizeof(DXGI_MODE_DESC));
 
 		bufferDesc.Width = WINSIZEX;
@@ -225,12 +225,12 @@ void InitDirectX(HINSTANCE)
 		hr = SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&BackBuffer);
 		assert(SUCCEEDED(hr));
 
-		// 백버퍼의 렌더타겟 뷰 생성
+		// 諛깅쾭?쇱쓽 ?뚮뜑?寃?酉??앹꽦
 		hr = Device->CreateRenderTargetView(BackBuffer, NULL, &RTV);
 		assert(SUCCEEDED(hr));
 		BackBuffer->Release();
 
-		// 렌더타겟 뷰를 Output-Merger의 렌더 타겟으로 설정
+		// ?뚮뜑?寃?酉곕? Output-Merger???뚮뜑 ?寃잛쑝濡??ㅼ젙
 		DeviceContext->OMSetRenderTargets(1, &RTV, NULL);
 	}
 
@@ -245,16 +245,31 @@ void InitDirectX(HINSTANCE)
 
 		DeviceContext->RSSetViewports(1, &viewport);
 	}
+
+	// Disable CullMode
+	{
+		D3D11_RASTERIZER_DESC desc;
+		ZeroMemory(&desc, sizeof(D3D11_RASTERIZER_DESC));
+
+		desc.CullMode = D3D11_CULL_NONE;
+		desc.FillMode = D3D11_FILL_SOLID;
+
+		ID3D11RasterizerState* rasterState;
+		Device->CreateRasterizerState(&desc, &rasterState);
+
+		DeviceContext->RSSetState(rasterState);
+		SAFE_RELEASE(rasterState);
+	}
 }
 
 //
-//  함수: WndProc(HWND, UINT, WPARAM, LPARAM)
+//  ?⑥닔: WndProc(HWND, UINT, WPARAM, LPARAM)
 //
-//  목적:  주 창의 메시지를 처리합니다.
+//  紐⑹쟻:  二?李쎌쓽 硫붿떆吏瑜?泥섎━?⑸땲??
 //
-//  WM_COMMAND  - 응용 프로그램 메뉴를 처리합니다.
-//  WM_PAINT    - 주 창을 그립니다.
-//  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
+//  WM_COMMAND  - ?묒슜 ?꾨줈洹몃옩 硫붾돱瑜?泥섎━?⑸땲??
+//  WM_PAINT    - 二?李쎌쓣 洹몃┰?덈떎.
+//  WM_DESTROY  - 醫낅즺 硫붿떆吏瑜?寃뚯떆?섍퀬 諛섑솚?⑸땲??
 //
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -276,7 +291,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		g_ptMouse.x = LOWORD(lParam);
 		g_ptMouse.y = WINSIZEY - HIWORD(lParam);
 		break;
-	case WM_ACTIVATE:	// 창의 활성화, 비활성화 상태값이 바뀔 때 호출
+	case WM_ACTIVATE:	// 李쎌쓽 ?쒖꽦?? 鍮꾪솢?깊솕 ?곹깭媛믪씠 諛붾????몄텧
 		if (LOWORD(wParam) == WA_INACTIVE)
 			g_pTimeManager->SetTimeScale(0.0f);
 		break;
