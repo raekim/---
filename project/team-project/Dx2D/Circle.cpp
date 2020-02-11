@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Circle.h"
 
 
@@ -24,7 +24,7 @@ Circle::Circle()
 	// 버텍스 값 셋팅 및 버퍼 생성
 	{
 		// 중점
-		m_vecVertex.push_back(PCVertex(D3DXVECTOR3( 0, 0, 0), D3DXCOLOR(1, 1, 1, 1)));
+		m_vecVertex.push_back(PCVertex(D3DXVECTOR3(0, 0, 0), D3DXCOLOR(1, 1, 1, 1)));
 
 		float angle = 0; // 라디안 값
 		for (int i = 0; i < NUM_SLICE; i++)

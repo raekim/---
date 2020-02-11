@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Sprite.h"
 
 
@@ -32,10 +32,10 @@ void Sprite::InitSprite(wstring key, float u1, float v1, float u2, float v2, int
 
 	// 버텍스 값 셋팅 및 버퍼 생성
 	{
-		m_vecVertex.push_back(PTVertex(D3DXVECTOR3(-(m_fWidth * 0.5f),-(m_fHeight * 0.5f), 0), D3DXVECTOR2(u1, v2)));	// 0 : 0, 1
+		m_vecVertex.push_back(PTVertex(D3DXVECTOR3(-(m_fWidth * 0.5f), -(m_fHeight * 0.5f), 0), D3DXVECTOR2(u1, v2)));	// 0 : 0, 1
 		m_vecVertex.push_back(PTVertex(D3DXVECTOR3(-(m_fWidth * 0.5f), (m_fHeight * 0.5f), 0), D3DXVECTOR2(u1, v1)));	// 1 : 0, 0
-		m_vecVertex.push_back(PTVertex(D3DXVECTOR3( (m_fWidth * 0.5f), (m_fHeight * 0.5f), 0), D3DXVECTOR2(u2, v1)));	// 2 : 1, 0
-		m_vecVertex.push_back(PTVertex(D3DXVECTOR3( (m_fWidth * 0.5f),-(m_fHeight * 0.5f), 0), D3DXVECTOR2(u2, v2)));	// 3 : 1, 1
+		m_vecVertex.push_back(PTVertex(D3DXVECTOR3((m_fWidth * 0.5f), (m_fHeight * 0.5f), 0), D3DXVECTOR2(u2, v1)));	// 2 : 1, 0
+		m_vecVertex.push_back(PTVertex(D3DXVECTOR3((m_fWidth * 0.5f), -(m_fHeight * 0.5f), 0), D3DXVECTOR2(u2, v2)));	// 3 : 1, 1
 
 		// 버퍼 설정값
 		D3D11_BUFFER_DESC desc = { 0, };

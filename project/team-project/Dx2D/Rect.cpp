@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Rect.h"
 
 
@@ -24,9 +24,9 @@ Rect::Rect()
 
 	// 버텍스 값 셋팅 및 버퍼 생성
 	{
-		m_vecVertex.push_back(PCVertex(D3DXVECTOR3(-0.5f,-0.5f, 0), D3DXCOLOR(1, 1, 1, 1))); // 0
+		m_vecVertex.push_back(PCVertex(D3DXVECTOR3(-0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1))); // 0
 		m_vecVertex.push_back(PCVertex(D3DXVECTOR3(-0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1))); // 1
-		m_vecVertex.push_back(PCVertex(D3DXVECTOR3( 0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1))); // 2
+		m_vecVertex.push_back(PCVertex(D3DXVECTOR3(0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1))); // 2
 		m_vecVertex.push_back(PCVertex(D3DXVECTOR3(0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1))); // 3
 
 		// 버퍼 설정값

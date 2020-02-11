@@ -1,4 +1,4 @@
-// Dx2D.cpp: 응용 프로그램의 진입점을 정의합니다.
+﻿// Dx2D.cpp: 응용 프로그램의 진입점을 정의합니다.
 //
 
 #include "stdafx.h"
@@ -33,9 +33,9 @@ LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPWSTR    lpCmdLine,
+	_In_ int       nCmdShow)
 {
 	MyRegisterClass(hInstance);			// 클래스 등록 : 프로그램 등록
 	InitInstance(hInstance, nCmdShow);	// 등록 된 프로그램 초기화
@@ -85,7 +85,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	g_pKeyManager->ReleaseInstance();
 	//5g_pSoundManager->Update();
 
-    return (int) msg.wParam;
+	return (int)msg.wParam;
 }
 
 
@@ -97,23 +97,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //
 ATOM MyRegisterClass(HINSTANCE hInstance)
 {
-    WNDCLASSEXW wcex;
+	WNDCLASSEXW wcex;
 
-    wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DX2D));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= NULL;
-    wcex.lpszClassName  = szTitle;
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = WndProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DX2D));
+	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.lpszMenuName = NULL;
+	wcex.lpszClassName = szTitle;
+	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-    return RegisterClassExW(&wcex);
+	return RegisterClassExW(&wcex);
 }
 
 void ActiveClipCursor()
@@ -140,44 +140,44 @@ void ActiveClipCursor()
 //
 void InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   g_hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+	g_hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
-   int nRX = GetSystemMetrics(SM_CXSCREEN);
-   int nRY = GetSystemMetrics(SM_CYSCREEN);
+	int nRX = GetSystemMetrics(SM_CXSCREEN);
+	int nRY = GetSystemMetrics(SM_CYSCREEN);
 
-   int nWinPosX = nRX * 0.5f - WINSIZEX * 0.5f;
-   int nWinPosY = nRY * 0.5f - WINSIZEY * 0.5f - 40;
+	int nWinPosX = nRX * 0.5f - WINSIZEX * 0.5f;
+	int nWinPosY = nRY * 0.5f - WINSIZEY * 0.5f - 40;
 
-   HWND hWnd = CreateWindowW(
-	   szTitle,
-	   szTitle,
-	   WS_OVERLAPPED,
-	   nWinPosX,
-	   nWinPosY,
-	   WINSIZEX,
-	   WINSIZEY,
-	   nullptr,
-	   nullptr,
-	   hInstance,
-	   nullptr);
+	HWND hWnd = CreateWindowW(
+		szTitle,
+		szTitle,
+		WS_OVERLAPPED,
+		nWinPosX,
+		nWinPosY,
+		WINSIZEX,
+		WINSIZEY,
+		nullptr,
+		nullptr,
+		hInstance,
+		nullptr);
 
-   assert(hWnd);	// 창 생성에 문제가 있는 경우 프로그램이 종료 되고 오류메시지가 뜬다.
+	assert(hWnd);	// 창 생성에 문제가 있는 경우 프로그램이 종료 되고 오류메시지가 뜬다.
 
-   g_hWnd = hWnd;
+	g_hWnd = hWnd;
 
-   // 창 사이즈 재설정
-   RECT rt = { nWinPosX, nWinPosY, nWinPosX + WINSIZEX + 1, nWinPosY + WINSIZEY + 1};
-   AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
+	// 창 사이즈 재설정
+	RECT rt = { nWinPosX, nWinPosY, nWinPosX + WINSIZEX + 1, nWinPosY + WINSIZEY + 1 };
+	AdjustWindowRect(&rt, WS_OVERLAPPEDWINDOW, false);
 
-   ptWinSize.x = rt.right - rt.left;
-   ptWinSize.y = rt.bottom - rt.top;
+	ptWinSize.x = rt.right - rt.left;
+	ptWinSize.y = rt.bottom - rt.top;
 
-   MoveWindow(g_hWnd, nWinPosX, nWinPosY, ptWinSize.x, ptWinSize.y, true);
+	MoveWindow(g_hWnd, nWinPosX, nWinPosY, ptWinSize.x, ptWinSize.y, true);
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
 
-   ActiveClipCursor();
+	ActiveClipCursor();
 }
 
 void InitDirectX(HINSTANCE)
@@ -245,7 +245,7 @@ void InitDirectX(HINSTANCE)
 
 		DeviceContext->RSSetViewports(1, &viewport);
 	}
-	
+
 	// Disable CullMode
 	{
 		D3D11_RASTERIZER_DESC desc;
@@ -279,8 +279,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	static float timeScale = g_pTimeManager->GetTimeScale();
 
-    switch (message)
-    {
+	switch (message)
+	{
 	case WM_GETMINMAXINFO:
 		((MINMAXINFO*)lParam)->ptMaxTrackSize.x = ptWinSize.x;
 		((MINMAXINFO*)lParam)->ptMaxTrackSize.y = ptWinSize.y;
@@ -323,11 +323,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    return 0;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+	return 0;
 }

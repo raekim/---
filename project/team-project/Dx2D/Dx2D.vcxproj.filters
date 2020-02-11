@@ -110,9 +110,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MainGame.cpp">
-      <Filter>Dx2D Framework\1. MainClasses</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Dx2D Framework\1. MainClasses</Filter>
     </ClCompile>
@@ -154,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="TextManager.cpp">
       <Filter>Dx2D Framework\2. Manager\Text</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGame.cpp">
+      <Filter>Dx2D Framework\1. MainClasses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
