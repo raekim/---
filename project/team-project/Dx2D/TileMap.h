@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Tile.h"
 #define TILESIZE 80
 
@@ -24,7 +24,7 @@ public:
 	virtual void Release() override;
 
 	// getter & setter
-	int GetMapInfoWidth(){ return m_mapInfoWidth; }
+	int GetMapInfoWidth() { return m_mapInfoWidth; }
 	int GetMapInfoHeight() { return m_mapInfoHeight; }
 	void SetTileMapInfo(int i, int j, int info) { m_tileMapInfo[i][j] = info; }
 
@@ -32,4 +32,3 @@ public:
 	void Load(map<int, Tile*>& templates);
 	void Unload();
 };
-

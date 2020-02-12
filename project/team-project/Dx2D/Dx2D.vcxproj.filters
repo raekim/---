@@ -115,7 +115,7 @@
       <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClInclude>
     <ClInclude Include="TileMapManager.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +171,7 @@
       <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClCompile>
     <ClCompile Include="TileMapManager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
