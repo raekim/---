@@ -9,9 +9,8 @@ TileMapManager::TileMapManager()
 	Tile* tile;
 	for (int i = 0; i < 8 * 16; ++i)
 	{
-		if ((i + 1) % 8 == 0) continue; // 이미지상 맨 오른쪽 column은 공백이므로 건너뜀
 		tile = new Tile(new Sprite(L"test-ground", 8, 16, i));
-		m_tileTemplates.insert(make_pair(i, tile));
+		m_tileTemplates.insert(make_pair(i + 1, tile));
 	}
 
 	// 타일맵들(int로 표현)을 만들어서 보유한 타일맵 목록에 넣기
@@ -19,16 +18,15 @@ TileMapManager::TileMapManager()
 	tileMap = new TileMap(WINSIZEX, WINSIZEY);
 	// 16x9
 	string mapInfoStr = string
-	("1100000000000000\
-	0000000000000000\
-	0000000000000000\
-	0000000000000000\
-	0000000000000000\
-	0000000000000000\
-	0000000000000000\
-	0000000000000000\
-	0000000000000000\
-	");
+	("1100000000000000"
+	"1000000000000000"
+	"1000000000000000"
+	"1000000000000000"
+	"1000000000000000"
+	"2000000000000000"
+	"2000000000000000"
+	"2000000000000000"
+	"2000000000000000");
 	for (int i = 0; i < tileMap->GetMapInfoHeight(); ++i)
 	{
 		for (int j = 0; j < tileMap->GetMapInfoWidth(); ++j)
