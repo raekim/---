@@ -7,31 +7,36 @@ TileMapManager::TileMapManager()
 	// spritesheet_ground.png 파일에서 공백 칸 주의!! (맨 오른쪽 column은 아예 다 공백임)
 	g_pTextureManager->AddTexture(L"test-ground", L"spritesheet_ground.png");
 	Tile* tile;
-	for (int i = 0; i < 8 * 16; ++i)
+	for (int i = 0; i < 16; ++i)
 	{
-		tile = new Tile(new Sprite(L"test-ground", 8, 16, i));
-		m_tileTemplates.insert(make_pair(i + 1, tile));
+		for (int j = 0; j < 8; ++j)
+		{
+			tile = new Tile(new Sprite(L"test-ground", 8, 16, i*8 + j));
+			m_tileTemplates.insert(make_pair((i+1)*10 + (j+1), tile));
+		}
 	}
 
 	// 타일맵들(int로 표현)을 만들어서 보유한 타일맵 목록에 넣기
 	TileMap* tileMap;
+	FILE * pFile;
+
 	tileMap = new TileMap(WINSIZEX, WINSIZEY);
-	// 16x9
-	string mapInfoStr = string
-	("1100000000000000"
-	"1000000000000000"
-	"1000000000000000"
-	"1000000000000000"
-	"1000000000000000"
-	"2000000000000000"
-	"2000000000000000"
-	"2000000000000000"
-	"2000000000000000");
+
+	// 16x9 맵 정보를 파일로부터 읽어온다
+	pFile = fopen("../../_MapInfo/map1.txt", "rt");
+	int tileInfo[9][16];
+	for (int i = 0; i < 9; ++i)
+	{
+		for (int j = 0; j < 16; ++j)
+		{
+			fscanf(pFile, "%d ", &tileInfo[i][j]);
+		}
+	}
 	for (int i = 0; i < tileMap->GetMapInfoHeight(); ++i)
 	{
 		for (int j = 0; j < tileMap->GetMapInfoWidth(); ++j)
 		{
-			tileMap->SetTileMapInfo(i, j, mapInfoStr[i*tileMap->GetMapInfoWidth() + j] - '0');
+			tileMap->SetTileMapInfo(i, j, tileInfo[i][j]);
 		}
 	}
 	m_tileMaps.push_back(tileMap);
