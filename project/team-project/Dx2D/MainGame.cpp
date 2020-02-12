@@ -69,6 +69,7 @@ void MainGame::Init()
 {
 	m_tileMapManager->Init();
 	m_tileMapManager->LoadMap();
+	g_cameraPos = { 0,0 };	// 카메라 위치 원위치로 세팅
 }
 
 void MainGame::CreateGameClasses()
@@ -87,6 +88,30 @@ void MainGame::Update()
 		this->Init();
 	}
 
+	ImGui::Checkbox("Draw Map Colliders", &g_isDrawCollider);
+
+	// 넘버패드로 카메라 움직임
+	// 임시 코드임... 추후 카메라는 캐릭터 이동에 따라 움직이도록 변경
+	{
+		static float speed = 500;	// 카메라 스피드
+		if (g_pKeyManager->isStayKeyDown(VK_NUMPAD4))
+		{
+			g_cameraPos.x -= speed * g_pTimeManager->GetDeltaTime();
+		}
+		else if (g_pKeyManager->isStayKeyDown(VK_NUMPAD6))
+		{
+			g_cameraPos.x += speed * g_pTimeManager->GetDeltaTime();
+		}
+		else if (g_pKeyManager->isStayKeyDown(VK_NUMPAD8))
+		{
+			g_cameraPos.y += speed * g_pTimeManager->GetDeltaTime();
+		}
+		else if (g_pKeyManager->isStayKeyDown(VK_NUMPAD2))
+		{
+			g_cameraPos.y -= speed * g_pTimeManager->GetDeltaTime();
+		}
+	}
+	
 	m_tileMapManager->Update();
 }
 

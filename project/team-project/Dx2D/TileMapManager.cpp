@@ -11,9 +11,19 @@ TileMapManager::TileMapManager()
 	{
 		for (int j = 0; j < 8; ++j)
 		{
-			tile = new Tile(new Sprite(L"test-ground", 8, 16, i*8 + j));
-			m_tileTemplates.insert(make_pair((i+1)*10 + (j+1), tile));
+			tile = new Tile(new Sprite(L"test-ground", 8, 16, i * 8 + j));
+			// 타일 collider 설정
+			// 디폴트는 sprite 사이즈에 맞는 rect collider입니다.
+			{
+				tile->SetRectCollider();
+			}
+			m_tileTemplates.insert(make_pair((i + 1) * 10 + (j + 1), tile));
 		}
+	}
+
+	// 수동 collider 설정
+	{
+
 	}
 
 	// 타일맵들(int로 표현)을 만들어서 보유한 타일맵 목록에 넣기
@@ -21,6 +31,7 @@ TileMapManager::TileMapManager()
 	FILE * pFile;
 
 	tileMap = new TileMap(WINSIZEX, WINSIZEY);
+
 
 	// 16x9 맵 정보를 파일로부터 읽어온다
 	pFile = fopen("../../_MapInfo/map1.txt", "rt");

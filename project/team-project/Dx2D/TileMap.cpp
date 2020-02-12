@@ -44,15 +44,6 @@ void TileMap::Update()
 
 void TileMap::Render()
 {
-	//// int로 표현된 맵 정보로부터 실제 tile로 구성된 맵을 로드한다
-	//for (int i = 0; i < m_mapInfoHeight; ++i)
-	//{
-	//	for (int j = 0; j < m_mapInfoWidth; ++j)
-	//	{
-	//		if (m_tileMapInfo[i][j] == 0) continue;
-	//		m_tileMap[i][j].Render();
-	//	}
-	//}
 
 	// int로 표현된 맵 정보로부터 실제 tile로 구성된 맵을 로드한다
 	for (int i = 0; i < m_mapInfoHeight; ++i)
@@ -63,7 +54,9 @@ void TileMap::Render()
 
 			// 각 타일들의 적절한 위치 업데이트
 			if (m_tileMapInfo[i][j] == 0) continue;
-			m_tileMap[i][j].Update({ j*TILESIZE + TILESIZE * 0.5f, (m_mapInfoHeight - i - 1)*TILESIZE + TILESIZE * 0.5f });
+			D3DXVECTOR2 tilePos = { j*TILESIZE + TILESIZE * 0.5f, (m_mapInfoHeight - i - 1)*TILESIZE + TILESIZE * 0.5f };
+			tilePos -= g_cameraPos;
+			m_tileMap[i][j].Update(tilePos);
 			// 타일 렌더
 			m_tileMap[i][j].Render();
 		}
@@ -86,6 +79,7 @@ void TileMap::Load(map<int, Tile*>& templates)
 			m_tileMap[i][j] = *(templates[m_tileMapInfo[i][j]]);
 			m_tileMap[i][j].m_sprite->Init();
 			m_tileMap[i][j].m_sprite->SetConstantScale({ TILESIZE,TILESIZE });
+			// 리사이즈 콜라이더 m_tileMap.
 		}
 	}
 }
