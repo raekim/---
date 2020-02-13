@@ -10,23 +10,126 @@ inline bool CircleRectCollision(D3DXVECTOR2 circleCenter, float circleRadius, D3
 	float B1 = T1 - s1.y;
 
 	// 충돌 case 1 : 원의 중심이 사각형 안에 있는 경우 
-	if (circleCenter.x > L1 && circleCenter.x < R1 &&
-		circleCenter.y > B1 && circleCenter.y < T1)
+	if (circleCenter.x >= L1 && circleCenter.x <= R1 &&
+		circleCenter.y >= B1 && circleCenter.y <= T1)
 		return true;
 
 	// 충돌 case 2 : 원이 사각형의 어떤 모서리를 넘었을 경우
-	// (원의 중심에서 사각형의 모서리까지의 거리(수선의 발의 거리)) < (원의 반지름) 일 경우 모서리를 넘은것이다
+	// (원의 중심에서 사각형의 모서리까지의 거리(수선의 발의 거리)) <= (원의 반지름) 일 경우 모서리를 넘은것이다
 	{
 		float d;	// 점에서 모서리까지의 거리
-		// left
-		
-		// right
+		float a, b, c, d;
+		D3DXVECTOR2 r1, r2;
 
-		// top
+		// 왼쪽 모서리
+		r1 = {L1, T1}; // 왼쪽 위 점
+		r2 = {L1, B1};	// 왼쪽 아래 점
+		a = r2.y - r1.y;
+		b = -(r2.x - r1.x);
+		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
+		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		if (d <= circleRadius) return true;
 
-		// bottom
+		// 오른쪽 모서리
+		r1 = { R1, T1 };	// 오른쪽 위 점
+		r2 = { R1, B1 };	// 오른쪽 아래 점
+		a = r2.y - r1.y;
+		b = -(r2.x - r1.x);
+		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
+		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		if (d <= circleRadius) return true;
+
+		// 위 모서리
+		r1 = { L1, T1 };	// 왼쪽 위 점
+		r2 = { R1, T1 };	// 오른쪽 위 점
+		a = r2.y - r1.y;
+		b = -(r2.x - r1.x);
+		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
+		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		if (d <= circleRadius) return true;
+
+		// 아래 모서리
+		r1 = { L1, B1 };	// 왼쪽 아래 점
+		r2 = { R1, B1 };	// 오른쪽 아래 점
+		a = r2.y - r1.y;
+		b = -(r2.x - r1.x);
+		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
+		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		if (d <= circleRadius) return true;
 	}
 	
+	//
+	// cp : circle center point     r1, r2 : 사각형의 모서리 끝점 2개
+	// a = r2.y - r1.y
+	// b = -(r2.x - r1.x)
+	// c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y
+	// d = abs(a*cp.x + b*cp.y + c) / sqrt(a*a + b*b)
+
+	return false;
+}
+
+// p1, p2, p3 : 삼각형의 점들
+inline bool CircleTriangleCollision(D3DXVECTOR2 circleCenter, float circleRadius, D3DXVECTOR2 p1, D3DXVECTOR2 p2, D3DXVECTOR2 p3)
+{
+	// 충돌 case 1 : 원의 중심이 삼각형 안에 있는 경우 
+	if (PointInTriangle(circleCenter, p1, p2, p3))
+		return true;
+
+	// 충돌 case 2 : 원이 삼각형의 어떤 모서리를 넘었을 경우
+	{
+		float d;	// 점에서 모서리까지의 거리
+		float a, b, c, d;
+		D3DXVECTOR2 r1, r2;
+
+		// 모서리 1
+		r1 = p1;
+		r2 = p2;
+		a = r2.y - r1.y;
+		b = -(r2.x - r1.x);
+		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
+		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		if (d <= circleRadius) return true;
+
+		// 모서리 2
+		r1 = p2;
+		r2 = p3;
+		a = r2.y - r1.y;
+		b = -(r2.x - r1.x);
+		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
+		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		if (d <= circleRadius) return true;
+
+		// 모서리 3
+		r1 = p3;
+		r2 = p1;
+		a = r2.y - r1.y;
+		b = -(r2.x - r1.x);
+		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
+		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		if (d <= circleRadius) return true;
+	}
+
+	return false;
+}
+
+inline bool sign(D3DXVECTOR2 p1, D3DXVECTOR2 p2, D3DXVECTOR2 p3)
+{
+	return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+}
+
+inline bool PointInTriangle(D3DXVECTOR2 pt, D3DXVECTOR2 v1, D3DXVECTOR2 v2, D3DXVECTOR2 v3)
+{
+	float d1, d2, d3;
+	bool has_neg, has_pos;
+
+	d1 = sign(pt, v1, v2);
+	d2 = sign(pt, v2, v3);
+	d3 = sign(pt, v3, v1);
+
+	has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+	has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+
+	return !(has_neg && has_pos);
 }
 
 inline bool PointInCircle(D3DXVECTOR2 p1, float r1, D3DXVECTOR2 point)
