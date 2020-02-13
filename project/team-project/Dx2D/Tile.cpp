@@ -22,9 +22,33 @@ void Tile::Init()
 	m_sprite->SetConstantScale({ TILESIZE,TILESIZE });
 }
 
+bool Tile::CollisionWithCircle(Circle* other)
+{
+	if (m_hasRectCollider)
+	{
+		return CircleRectCollision(other->GetPosition(), other->GetRadius(), m_rectCollider->GetPosition(), m_rectCollider->GetSize());
+	}
+	else
+	{
+		return CircleTriangleCollision(other->GetPosition(), other->GetRadius(), m_triangleCollider->m_triangleVertex[0], m_triangleCollider->m_triangleVertex[1], m_triangleCollider->m_triangleVertex[2]);
+	}
+	//CircleRectCollision(D3DXVECTOR2 circleCenter, float circleRadius, D3DXVECTOR2 p1, D3DXVECTOR2 s1)
+	//CircleTriangleCollision(D3DXVECTOR2 circleCenter, float circleRadius, D3DXVECTOR2 p1, D3DXVECTOR2 p2, D3DXVECTOR2 p3)
+}
+
 void Tile::Update()
 {
-	m_sprite->Update();
+	// collider 업데이트
+	if (m_hasRectCollider)
+	{
+		m_rectCollider->SetPosition(m_tilePos);
+		m_rectCollider->Update();
+	}
+	else
+	{
+		m_triangleCollider->SetPosition(m_tilePos);
+		m_triangleCollider->Update();
+	}
 }
 
 void Tile::Update(D3DXVECTOR2 tilePos)

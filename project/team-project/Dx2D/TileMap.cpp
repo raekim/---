@@ -44,7 +44,6 @@ void TileMap::Update()
 
 void TileMap::Render()
 {
-
 	// int로 표현된 맵 정보로부터 실제 tile로 구성된 맵을 로드한다
 	for (int i = 0; i < m_mapInfoHeight; ++i)
 	{
@@ -65,6 +64,28 @@ void TileMap::Render()
 
 void TileMap::Release()
 {
+}
+
+bool TileMap::CircleCollision(Circle * other)
+{
+	bool collide = false;
+	// int로 표현된 맵 정보로부터 실제 tile로 구성된 맵을 로드한다
+	for (int i = 0; i < m_mapInfoHeight; ++i)
+	{
+		for (int j = 0; j < m_mapInfoWidth; ++j)
+		{
+
+			// 각 타일들의 collider 위치 업데이트 (하나를 share하므로 각 타일마다 업데이트 해주어야 함)
+			if (m_tileMapInfo[i][j] == 0) continue;
+			D3DXVECTOR2 tilePos = { j*TILESIZE + TILESIZE * 0.5f, (m_mapInfoHeight - i - 1)*TILESIZE + TILESIZE * 0.5f };
+			tilePos -= g_cameraPos;
+			m_tileMap[i][j].Update(tilePos);
+
+			// 충돌 체크
+			collide |= m_tileMap[i][j].CollisionWithCircle(other);
+		}
+	}
+	return collide;
 }
 
 void TileMap::Load(map<int, Tile*>& templates)

@@ -10,6 +10,16 @@ MyTriangle::MyTriangle(vector<PCVertex> vecVertex)
 	Primitive2DObejct::Init();
 	Init();
 
+	// 삼각형 버텍스 저장(sprite 크기에 맞는, 윈도우상의 좌표)
+	auto v = vecVertex[0].Position;
+	m_triangleVertexOffset.emplace_back(v.x *TILESIZE, v.y *TILESIZE);
+	v = vecVertex[1].Position;
+	m_triangleVertexOffset.emplace_back(v.x *TILESIZE, v.y *TILESIZE);
+	v = vecVertex[2].Position;
+	m_triangleVertexOffset.emplace_back(v.x *TILESIZE, v.y *TILESIZE);
+
+	m_triangleVertex = m_triangleVertexOffset;
+
 	// 월드 매트릭스 셋팅 및 버퍼 생성
 	{
 		D3D11_BUFFER_DESC desc = { 0, };
@@ -108,6 +118,12 @@ void MyTriangle::Init()
 void MyTriangle::Update()
 {
 	Primitive2DObejct::Update();
+
+	// 삼각형 위치에 맞게 버텍스 업데이트
+	for (int i = 0; i < 3; ++i)
+	{
+		m_triangleVertex[0] = m_triangleVertexOffset[0] + m_vPosition;
+	}
 }
 
 void MyTriangle::Render()

@@ -14,6 +14,7 @@ public:
 	~Tile();
 
 	virtual void Init() override;
+	bool CollisionWithCircle(Circle * other);
 	virtual void Update() override;
 	virtual void Update(D3DXVECTOR2 tilePos);
 	virtual void Render() override;

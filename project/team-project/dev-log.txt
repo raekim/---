@@ -1,5 +1,8 @@
 1. make circle move
+
+
 2. circle&rect  circle&triangle collision function
+- test circle collision
 
 - 맵 넓히기
 - 코인 만들기(금-토)

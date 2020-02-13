@@ -116,3 +116,8 @@ void TileMapManager::UnloadMap(int idx)
 {
 	m_tileMaps[idx]->Unload();
 }
+
+bool TileMapManager::CurrMapCircleCollision(Circle * other)
+{
+	return m_tileMaps[m_currentLoadedMapIdx]->CircleCollision(other);
+}

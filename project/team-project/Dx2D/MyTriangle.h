@@ -2,6 +2,8 @@
 class MyTriangle : public Primitive2DObejct<PCVertex>
 {
 public:
+	vector<D3DXVECTOR2> m_triangleVertexOffset;
+	vector<D3DXVECTOR2> m_triangleVertex;
 	MyTriangle(vector<PCVertex> vecVertex);
 	MyTriangle();
 	~MyTriangle();

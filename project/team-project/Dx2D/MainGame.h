@@ -13,6 +13,7 @@ private:
 private:
 	// Game Classes
 	TileMapManager* m_tileMapManager;
+	Circle* m_testCircle;	// 원 충돌 테스트용
 public:
 	MainGame();
 	~MainGame();

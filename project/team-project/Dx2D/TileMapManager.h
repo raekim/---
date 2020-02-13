@@ -17,4 +17,7 @@ public:
 
 	void LoadMap(int idx = 0);	// 타일맵 정보를 가지고 있는 2차원 int 배열로부터 실제 Tile로 이루어진 맵을 그리기 위한 자원을 로드한다
 	void UnloadMap(int idx = 0);
+	bool CurrMapCircleCollision(Circle* other);
+
+	TileMap* GetCurMap() { return m_tileMaps[m_currentLoadedMapIdx]; }
 };
