@@ -1,5 +1,8 @@
--TileMapManager에서 template만들 때 tile에 collider도 가지고 있도록 변경
+0x0908b160
 
+
+-TileMapManager에서 template만들 때 tile에 collider도 가지고 있도록 변경
+- template에서 타일 생성하는 함수 따로 만들기(TileMap.cpp line 79)
 
 -타일맵에 collider 붙이기(tile class에 멤버로 추가, 사각형과 삼각형)
 	-rect 또는 MyTriangle 변수로 가지고 있기

@@ -2,7 +2,7 @@
 class MyTriangle : public Primitive2DObejct<PCVertex>
 {
 public:
-	MyTriangle(vector<PCVertex> m_vecVertex);
+	MyTriangle(vector<PCVertex> vecVertex);
 	MyTriangle();
 	~MyTriangle();
 

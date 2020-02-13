@@ -5,7 +5,7 @@ MyTriangle::MyTriangle()
 {
 }
 
-MyTriangle::MyTriangle(vector<PCVertex> m_vecVertex)
+MyTriangle::MyTriangle(vector<PCVertex> vecVertex)
 {
 	Primitive2DObejct::Init();
 	Init();
@@ -27,9 +27,9 @@ MyTriangle::MyTriangle(vector<PCVertex> m_vecVertex)
 
 	// 버텍스 값 셋팅 및 버퍼 생성
 	{
-		m_vecVertex.push_back(m_vecVertex[0]); // 0
-		m_vecVertex.push_back(m_vecVertex[1]); // 1
-		m_vecVertex.push_back(m_vecVertex[2]); // 2
+		m_vecVertex.push_back(vecVertex[0]); // 0
+		m_vecVertex.push_back(vecVertex[1]); // 1
+		m_vecVertex.push_back(vecVertex[2]); // 2
 
 		// 버퍼 설정값
 		D3D11_BUFFER_DESC desc = { 0, };

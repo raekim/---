@@ -76,10 +76,9 @@ void TileMap::Load(map<int, Tile*>& templates)
 		{
 			if (m_tileMapInfo[i][j] == 0) continue;
 			// int(key)로부터 실제 tile(value)정보를 꺼내와 타일맵으로 저장한다
-			m_tileMap[i][j] = *(templates[m_tileMapInfo[i][j]]);
-			m_tileMap[i][j].m_sprite->Init();
-			m_tileMap[i][j].m_sprite->SetConstantScale({ TILESIZE,TILESIZE });
-			// 리사이즈 콜라이더 m_tileMap.
+			Tile* pTile = templates[m_tileMapInfo[i][j]];
+			
+			m_tileMap[i][j] = *pTile;
 		}
 	}
 }

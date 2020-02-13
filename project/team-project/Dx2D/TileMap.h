@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Tile.h"
-#define TILESIZE 80
 
 // 타일맵 하나는 맵 하나를 표현
 class TileMap : public iGameNode

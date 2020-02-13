@@ -47,6 +47,8 @@ using namespace std;
 #define GRAVITY (9.8f * 60.0f)
 #define DEFAULT_X 200
 
+#define TILESIZE 80	// 타일맵 타일 사이즈 (가로,세로 동일)
+
 /*
 속성 -> C/C++ -> 추가 포함 디렉터리 : ../../_Libraries
 속성 -> 링커 -> 추가 라이브러리 디렉터리 : ../../_Libraries

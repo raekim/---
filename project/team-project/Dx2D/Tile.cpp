@@ -5,8 +5,6 @@
 Tile::Tile(Sprite * s)
 {
 	m_sprite = s;
-	m_rectCollider = NULL;
-	m_triangleCollider = NULL;
 }
 
 Tile::Tile()
@@ -21,9 +19,7 @@ Tile::~Tile()
 void Tile::Init()
 {
 	m_sprite->Init();
-
-	// collider 크기 조정
-
+	m_sprite->SetConstantScale({ TILESIZE,TILESIZE });
 }
 
 void Tile::Update()
@@ -33,52 +29,42 @@ void Tile::Update()
 
 void Tile::Update(D3DXVECTOR2 tilePos)
 {
+	// 카메라 offset을 적용한 화면상의 타일 위치 저장
 	m_tilePos = tilePos;
+
+	// 타일 이미지 업데이트
 	m_sprite->SetPosition(tilePos);
 	m_sprite->Update();
 
 	// collider 업데이트
-	if (m_triangleCollider)	// 삼각형 collider
-	{
-
-	}
-	else if (m_rectCollider)	// 사각형 collider
+	if (m_hasRectCollider)
 	{
 		m_rectCollider->SetPosition(tilePos);
 		m_rectCollider->Update();
+	}
+	else
+	{
+		m_triangleCollider->SetPosition(tilePos);
+		m_triangleCollider->Update();
 	}
 }
 
 void Tile::Render()
 {
+	// 타일 이미지 그리기
 	m_sprite->Render();
 
 	// collider 그리기
-	if (g_isDrawCollider)
+	// g_isDrawCollider가 true일 때 collider를 그려준다.
+	if (m_hasRectCollider)
 	{
-		if (m_triangleCollider)	// 삼각형 collider
-		{
-			m_triangleCollider->SetBorder(true);
-			m_triangleCollider->Render();
-		}
-		else if (m_rectCollider)	// 사각형 collider
-		{
-			m_rectCollider->SetBorder(true);
-			m_rectCollider->Render();
-		}
+		m_rectCollider->SetBorder(g_isDrawCollider);
+		if (g_isDrawCollider) m_rectCollider->Render();
 	}
 	else
 	{
-		if (m_triangleCollider)	// 삼각형 collider
-		{
-			m_triangleCollider->SetBorder(false);
-			m_triangleCollider->Render();
-		}
-		else if (m_rectCollider)	// 사각형 collider
-		{
-			m_rectCollider->SetBorder(false);
-			m_rectCollider->Render();
-		}
+		m_triangleCollider->SetBorder(g_isDrawCollider);
+		if (g_isDrawCollider) m_triangleCollider->Render();
 	}
 }
 
@@ -88,23 +74,28 @@ void Tile::Release()
 
 void Tile::SetRectCollider(Rect* rect)
 {
-	if (m_triangleCollider != NULL) return;
+	m_hasRectCollider = true;
 	m_rectCollider = rect;
 }
 
 void Tile::SetRectCollider()
 {
-	if (m_triangleCollider != NULL) return;	// 이미 삼각형 collider를 가지고 있는 경우 함수 실행 취소됨(collider는 한 가지 종류만...)
+	m_hasRectCollider = true;
 
 	m_rectCollider = new Rect;
 	m_rectCollider->Init();
+	
 	// collider를 타일과 같은 크기로 설정
 	m_rectCollider->SetSize({ m_sprite->GetWidth()*m_sprite->GetSize().x,  m_sprite->GetHeight()*m_sprite->GetSize().y });
 }
 
 void Tile::SetTriangleCollider(vector<PCVertex> m_vecVertex)
 {
-	if (m_rectCollider != NULL) return;	// 이미 Rect collider를 가지고 있는 경우 함수 실행 취소됨(collider는 한 가지 종류만...)
+	m_hasRectCollider = false;
 
 	m_triangleCollider = new MyTriangle(m_vecVertex);
+	m_triangleCollider->Init();
+
+	//collider를 타일과 같은 크기로 설정
+	m_triangleCollider->SetSize({ m_sprite->GetWidth()*m_sprite->GetSize().x,  m_sprite->GetHeight()*m_sprite->GetSize().y });
 }

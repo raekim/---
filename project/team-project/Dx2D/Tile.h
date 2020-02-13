@@ -3,9 +3,11 @@
 class Tile : public iGameNode
 {
 	D3DXVECTOR2 m_tilePos;	// 렌더 및 충돌처리용 좌표
+	bool m_hasRectCollider;
+public:
+	// collider, sprite는 template으로부터 공유하고 있으므로 사용 시 주의!
 	Rect* m_rectCollider;
 	MyTriangle* m_triangleCollider;
-public:
 	Sprite* m_sprite;
 	Tile(Sprite* s);
 	Tile();
