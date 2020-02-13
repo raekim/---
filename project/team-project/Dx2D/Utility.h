@@ -1,5 +1,34 @@
-#pragma once
+ï»¿#pragma once
 /* Utility */
+
+// p1:ì‚¬ê°í˜•ì˜ ì¤‘ì‹¬, s1:ì‚¬ê°í˜•ì˜ ì‚¬ì´ì¦ˆ
+inline bool CircleRectCollision(D3DXVECTOR2 circleCenter, float circleRadius, D3DXVECTOR2 p1, D3DXVECTOR2 s1)
+{
+	float L1 = p1.x - s1.x * 0.5f;
+	float R1 = L1 + s1.x; // R1 = p1.x + s1.x * 0.5f;
+	float T1 = p1.y + s1.y * 0.5f;
+	float B1 = T1 - s1.y;
+
+	// ì¶©ëŒ case 1 : ì›ì˜ ì¤‘ì‹¬ì´ ì‚¬ê°í˜• ì•ˆì— ìžˆëŠ” ê²½ìš° 
+	if (circleCenter.x > L1 && circleCenter.x < R1 &&
+		circleCenter.y > B1 && circleCenter.y < T1)
+		return true;
+
+	// ì¶©ëŒ case 2 : ì›ì´ ì‚¬ê°í˜•ì˜ ì–´ë–¤ ëª¨ì„œë¦¬ë¥¼ ë„˜ì—ˆì„ ê²½ìš°
+	// (ì›ì˜ ì¤‘ì‹¬ì—ì„œ ì‚¬ê°í˜•ì˜ ëª¨ì„œë¦¬ê¹Œì§€ì˜ ê±°ë¦¬(ìˆ˜ì„ ì˜ ë°œì˜ ê±°ë¦¬)) < (ì›ì˜ ë°˜ì§€ë¦„) ì¼ ê²½ìš° ëª¨ì„œë¦¬ë¥¼ ë„˜ì€ê²ƒì´ë‹¤
+	{
+		float d;	// ì ì—ì„œ ëª¨ì„œë¦¬ê¹Œì§€ì˜ ê±°ë¦¬
+		// left
+		
+		// right
+
+		// top
+
+		// bottom
+	}
+	
+}
+
 inline bool PointInCircle(D3DXVECTOR2 p1, float r1, D3DXVECTOR2 point)
 {
 	float distX = p1.x - point.x;
@@ -30,7 +59,7 @@ inline bool PointInRect(D3DXVECTOR2 p1, D3DXVECTOR2 s1, D3DXVECTOR2 point)
 inline bool CircleCollision(D3DXVECTOR2 p1, float r1, D3DXVECTOR2 p2, float r2)
 {
 	/*
-	¿ø Ãæµ¹ : µÎ Á¡ »çÀÌÀÇ °Å¸®°¡ µÎ ¿øÀÇ ¹ÝÁö¸§À» ´õÇÑ °ªº¸´Ù ÀÛ´Ù¸é µÎ ¿øÀº Ãæµ¹ »óÅÂ
+	ì› ì¶©ëŒ : ë‘ ì  ì‚¬ì´ì˜ ê±°ë¦¬ê°€ ë‘ ì›ì˜ ë°˜ì§€ë¦„ì„ ë”í•œ ê°’ë³´ë‹¤ ìž‘ë‹¤ë©´ ë‘ ì›ì€ ì¶©ëŒ ìƒíƒœ
 	*/
 
 	float distX = p1.x - p2.x;
@@ -76,19 +105,19 @@ inline bool AABB2D(RECT& rect1, RECT& rect2)
 	return true;
 }
 
-// ±âÁØÃà, AµµÇü ÁßÁ¡, AµµÇü ¹ÝÁö¸§, BµµÇü ÁßÁ¡, BµµÇü ÁÂÇ¥°ª
-// AµµÇü : ±âÁØÃà¿¡ ÆòÇàº¯À» °¡Áö°í ÀÖ´Â µµÇü
+// ê¸°ì¤€ì¶•, Aë„í˜• ì¤‘ì , Aë„í˜• ë°˜ì§€ë¦„, Bë„í˜• ì¤‘ì , Bë„í˜• ì¢Œí‘œê°’
+// Aë„í˜• : ê¸°ì¤€ì¶•ì— í‰í–‰ë³€ì„ ê°€ì§€ê³  ìžˆëŠ” ë„í˜•
 inline bool CheckOBB2D(D3DXVECTOR2& PivotDir, D3DXVECTOR2& A_Center, float& A_Half,
 	D3DXVECTOR2 B_Center, D3DXVECTOR2 v[4])
 {
-	// µÎ ¼¾ÅÍ¿¡ ´ëÇÑ Åõ¿µ°ª
+	// ë‘ ì„¼í„°ì— ëŒ€í•œ íˆ¬ì˜ê°’
 	float projectA_C = D3DXVec2Dot(&PivotDir, &A_Center);
 	float projectB_C = D3DXVec2Dot(&PivotDir, &B_Center);
 
-	// µÎ ¼¾ÅÍÀÇ Åõ¿µ°ªÀÇ °Å¸®
+	// ë‘ ì„¼í„°ì˜ íˆ¬ì˜ê°’ì˜ ê±°ë¦¬
 	float length_C = fabs(projectA_C - projectB_C);
 
-	// BµµÇüÀÇ °¢ ÁÂÇ¥¿¡ ´ëÇÑ Åõ¿µ °ªÁß °¡Àå ÀÛÀº °ªÀ» °è»ê
+	// Bë„í˜•ì˜ ê° ì¢Œí‘œì— ëŒ€í•œ íˆ¬ì˜ ê°’ì¤‘ ê°€ìž¥ ìž‘ì€ ê°’ì„ ê³„ì‚°
 	float projectB_Left = D3D11_FLOAT32_MAX;
 	for (int i = 0; i < 4; i++)
 	{
@@ -98,7 +127,7 @@ inline bool CheckOBB2D(D3DXVECTOR2& PivotDir, D3DXVECTOR2& A_Center, float& A_Ha
 			projectB_Left = length;
 	}
 
-	// BµµÇüÀÇ ±âÁØº¤ÅÍ¿¡ ´ëÇÑ ¹ÝÁö¸§°ª
+	// Bë„í˜•ì˜ ê¸°ì¤€ë²¡í„°ì— ëŒ€í•œ ë°˜ì§€ë¦„ê°’
 	float B_Half = fabs(projectB_Left - projectB_C);
 
 	return length_C <= (A_Half + B_Half);
@@ -106,43 +135,43 @@ inline bool CheckOBB2D(D3DXVECTOR2& PivotDir, D3DXVECTOR2& A_Center, float& A_Ha
 
 inline bool OBB2D(D3DXMATRIX& matA, D3DXMATRIX& matB)
 {
-	// Ã³À½ ¼³°è ±âº» ÁÂÇ¥ °ªÀº 0±âÁØ »çÀÌÁî 1Â¥¸®ÀÌ´Ù.
+	// ì²˜ìŒ ì„¤ê³„ ê¸°ë³¸ ì¢Œí‘œ ê°’ì€ 0ê¸°ì¤€ ì‚¬ì´ì¦ˆ 1ì§œë¦¬ì´ë‹¤.
 	D3DXVECTOR2 vA[4], vB[4];
 	vA[0] = D3DXVECTOR2(-0.5f,-0.5f);
 	vA[1] = D3DXVECTOR2(-0.5f, 0.5f);
 	vA[2] = D3DXVECTOR2( 0.5f, 0.5f);
 	vA[3] = D3DXVECTOR2( 0.5f,-0.5f);
 
-	// ¿ùµå(SRT)¸ÅÆ®¸¯½º¸¦ »ç¿ëÇÏ¿© ÇöÀç È­¸é¿¡¼­ÀÇ ÁÂÇ¥°ªÀ» °è»ê
+	// ì›”ë“œ(SRT)ë§¤íŠ¸ë¦­ìŠ¤ë¥¼ ì‚¬ìš©í•˜ì—¬ í˜„ìž¬ í™”ë©´ì—ì„œì˜ ì¢Œí‘œê°’ì„ ê³„ì‚°
 	for (int i = 0; i < 4; i++)
 	{
 		D3DXVec2TransformCoord(&vB[i], &vA[i], &matB);
 		D3DXVec2TransformCoord(&vA[i], &vA[i], &matA);
 	}
 
-	// µÎ »ç°¢ÇüÀÇ ÁßÁ¡ °è»ê
+	// ë‘ ì‚¬ê°í˜•ì˜ ì¤‘ì  ê³„ì‚°
 	D3DXVECTOR2 vA_Center((vA[0] + vA[2]) * 0.5f);
 	D3DXVECTOR2 vB_Center((vB[0] + vB[2]) * 0.5f);
 
-	// ±âÁØÃà º¤ÅÍ °è»ê1
+	// ê¸°ì¤€ì¶• ë²¡í„° ê³„ì‚°1
 	D3DXVECTOR2 vA_01 = vA[1] - vA[0];
 	D3DXVECTOR2 vA_03 = vA[3] - vA[0];
 	D3DXVECTOR2 vB_01 = vB[1] - vB[0];
 	D3DXVECTOR2 vB_03 = vB[3] - vB[0];
 
-	// »ç°¢Çü ÇÑº¯ÀÇ Àý¹Ý Å©±â (±âÁØÃà ÆòÇàº¯)
+	// ì‚¬ê°í˜• í•œë³€ì˜ ì ˆë°˜ í¬ê¸° (ê¸°ì¤€ì¶• í‰í–‰ë³€)
 	float fA_01_Half = D3DXVec2Length(&vA_01) * 0.5f;
 	float fA_03_Half = D3DXVec2Length(&vA_03) * 0.5f;
 	float fB_01_Half = D3DXVec2Length(&vB_01) * 0.5f;
 	float fB_03_Half = D3DXVec2Length(&vB_03) * 0.5f;
 
-	// ±âÁØÃà º¤ÅÍ °è»ê2
+	// ê¸°ì¤€ì¶• ë²¡í„° ê³„ì‚°2
 	D3DXVec2Normalize(&vA_01, &vA_01);
 	D3DXVec2Normalize(&vA_03, &vA_03);
 	D3DXVec2Normalize(&vB_01, &vB_01);
 	D3DXVec2Normalize(&vB_03, &vB_03);
 
-	// °¢ ±âÁØÃà º°·Î Ãæµ¹ °Ë»çÇÏ´Â ¹æ½ÄÀÌ °°±â ¶§¹®¿¡ ÇÔ¼öÈ­ÇÏ¿© »ç¿ë
+	// ê° ê¸°ì¤€ì¶• ë³„ë¡œ ì¶©ëŒ ê²€ì‚¬í•˜ëŠ” ë°©ì‹ì´ ê°™ê¸° ë•Œë¬¸ì— í•¨ìˆ˜í™”í•˜ì—¬ ì‚¬ìš©
 	if (!CheckOBB2D(vA_01, vA_Center, fA_01_Half, vB_Center, vB))
 		return false;
 
@@ -161,10 +190,10 @@ inline bool OBB2D(D3DXMATRIX& matA, D3DXMATRIX& matB)
 inline float GetAngle(D3DXVECTOR2 p1, D3DXVECTOR2 p2) // p1 -> p2
 {
 	/*
-	p1 ¿¡¼­ p2 ¹æÇâÀÇ °¢µµ °ª = theta
-	cos(theta) = (x2 - x1) / ´ë°¢¼± ±æÀÌ
-	theta = cos^-1( (x2 - x1) / ´ë°¢¼± ±æÀÌ )
-	theta = acos( (x2 - x1) / ´ë°¢¼± ±æÀÌ )
+	p1 ì—ì„œ p2 ë°©í–¥ì˜ ê°ë„ ê°’ = theta
+	cos(theta) = (x2 - x1) / ëŒ€ê°ì„  ê¸¸ì´
+	theta = cos^-1( (x2 - x1) / ëŒ€ê°ì„  ê¸¸ì´ )
+	theta = acos( (x2 - x1) / ëŒ€ê°ì„  ê¸¸ì´ )
 	*/
 
 	float distX = p2.x - p1.x;
@@ -177,7 +206,7 @@ inline float GetAngle(D3DXVECTOR2 p1, D3DXVECTOR2 p2) // p1 -> p2
 	if (p2.y < p1.y)
 		result = D3DX_PI * 2 - result;
 
-	// ¼­Å¬ Å¬·¡½º°¡ »ç¿ëÇÏ´Â ¾Þ±Û°ªÀº Degree °ªÀÌ°í
-	// cos, sin ÇÔ¼öµéÀÌ »ç¿ëÇÏ´Â °ªÀº Radian °ªÀÌ´Ù.
+	// ì„œí´ í´ëž˜ìŠ¤ê°€ ì‚¬ìš©í•˜ëŠ” ì•µê¸€ê°’ì€ Degree ê°’ì´ê³ 
+	// cos, sin í•¨ìˆ˜ë“¤ì´ ì‚¬ìš©í•˜ëŠ” ê°’ì€ Radian ê°’ì´ë‹¤.
 	return D3DXToDegree(result);
 }
