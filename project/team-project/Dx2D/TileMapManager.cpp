@@ -33,7 +33,26 @@ TileMapManager::TileMapManager()
 		rightTop.emplace_back(D3DXVECTOR3(-0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
 		rightTop.emplace_back(D3DXVECTOR3(0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
 		rightTop.emplace_back(D3DXVECTOR3(0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		
+		vector<PCVertex> leftTop;	// 직각인 각이 왼쪽 위에 있는 삼각형
+		leftTop.emplace_back(D3DXVECTOR3(-0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		leftTop.emplace_back(D3DXVECTOR3(-0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		leftTop.emplace_back(D3DXVECTOR3(0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		
+		vector<PCVertex> leftBottom;	// 직각인 각이 왼쪽 아래에 있는 삼각형
+		leftBottom.emplace_back(D3DXVECTOR3(0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		leftBottom.emplace_back(D3DXVECTOR3(-0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		leftBottom.emplace_back(D3DXVECTOR3(-0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+
+		vector<PCVertex> rightBottom;	// 직각인 각이 오른쪽 아래에 있는 삼각형
+		rightBottom.emplace_back(D3DXVECTOR3(0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		rightBottom.emplace_back(D3DXVECTOR3(0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		rightBottom.emplace_back(D3DXVECTOR3(-0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		
 		m_tileTemplates[14]->SetTriangleCollider(rightTop);
+		m_tileTemplates[163]->SetTriangleCollider(leftTop);
+		m_tileTemplates[135]->SetTriangleCollider(leftBottom);
+		m_tileTemplates[125]->SetTriangleCollider(rightBottom);
 	}
 
 
