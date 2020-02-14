@@ -122,7 +122,7 @@ void MyTriangle::Update()
 	// 삼각형 위치에 맞게 버텍스 업데이트
 	for (int i = 0; i < 3; ++i)
 	{
-		m_triangleVertex[0] = m_triangleVertexOffset[0] + m_vPosition;
+		m_triangleVertex[i] = m_triangleVertexOffset[i] + m_vPosition;
 	}
 }
 

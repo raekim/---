@@ -1,6 +1,33 @@
 ﻿#pragma once
 /* Utility */
 
+// 삼각형과 사각형, 원 충돌
+// 참조 1 : https://helloneo.pe.kr/393 (선분과 점 거리)
+// 참조 2 : https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle (점이 삼각형 안에 있음 확임)
+
+// 점(point)과 선분(p1, p2가 끝점)의 거리
+inline float GetDistanceBetweenPointAndLineSegment(D3DXVECTOR2 p, D3DXVECTOR2 s, D3DXVECTOR2 e)
+{
+	D3DXVECTOR2 sp = p - s;	// 점 s와 p를 잇는 벡터
+	D3DXVECTOR2 se = e - s;	// 점 s와 e를 잇는 벡터
+	D3DXVECTOR2 ep = p - e;	// 점 e와 p를 잇는 벡터
+
+	if (D3DXVec2Dot(&sp, &se) * D3DXVec2Dot(&ep, &se) <= 0)
+	{
+		/* foot exists.  point 로부터 선분으로 내린 수선의 발이 존재 */
+		D3DXVECTOR3 crossRes = { 0,0,0 };	// 벡터 외적 결과
+		D3DXVECTOR3 sp3 = { sp.x, sp.y, 0 };
+		D3DXVECTOR3 se3 = { se.x, se.y, 0 };
+		crossRes.z = 0;
+		D3DXVec3Cross(&crossRes, &sp3, &se3);
+		return D3DXVec3Length(&crossRes) / D3DXVec2Length(&se);
+	}
+	else
+	{
+		return min(D3DXVec2Length(&sp), D3DXVec2Length(&ep));
+	}
+}
+
 // p1:사각형의 중심, s1:사각형의 사이즈
 inline bool CircleRectCollision(D3DXVECTOR2 circleCenter, float circleRadius, D3DXVECTOR2 p1, D3DXVECTOR2 s1)
 {
@@ -18,61 +45,41 @@ inline bool CircleRectCollision(D3DXVECTOR2 circleCenter, float circleRadius, D3
 	// (원의 중심에서 사각형의 모서리까지의 거리(수선의 발의 거리)) <= (원의 반지름) 일 경우 모서리를 넘은것이다
 	{
 		float d;	// 점에서 모서리까지의 거리
-		float a, b, c;
 		D3DXVECTOR2 r1, r2;
 
 		// 왼쪽 모서리
 		r1 = {L1, T1}; // 왼쪽 위 점
 		r2 = {L1, B1};	// 왼쪽 아래 점
-		a = r2.y - r1.y;
-		b = -(r2.x - r1.x);
-		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
-		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		d = GetDistanceBetweenPointAndLineSegment(circleCenter, r1, r2);
 		if (d <= circleRadius) return true;
 
 		// 오른쪽 모서리
 		r1 = { R1, T1 };	// 오른쪽 위 점
 		r2 = { R1, B1 };	// 오른쪽 아래 점
-		a = r2.y - r1.y;
-		b = -(r2.x - r1.x);
-		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
-		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		d = GetDistanceBetweenPointAndLineSegment(circleCenter, r1, r2);
 		if (d <= circleRadius) return true;
 
 		// 위 모서리
 		r1 = { L1, T1 };	// 왼쪽 위 점
 		r2 = { R1, T1 };	// 오른쪽 위 점
-		a = r2.y - r1.y;
-		b = -(r2.x - r1.x);
-		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
-		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		d = GetDistanceBetweenPointAndLineSegment(circleCenter, r1, r2);
 		if (d <= circleRadius) return true;
 
 		// 아래 모서리
 		r1 = { L1, B1 };	// 왼쪽 아래 점
 		r2 = { R1, B1 };	// 오른쪽 아래 점
-		a = r2.y - r1.y;
-		b = -(r2.x - r1.x);
-		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
-		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		d = GetDistanceBetweenPointAndLineSegment(circleCenter, r1, r2);
 		if (d <= circleRadius) return true;
 	}
-	
-	//
-	// cp : circle center point     r1, r2 : 사각형의 모서리 끝점 2개
-	// a = r2.y - r1.y
-	// b = -(r2.x - r1.x)
-	// c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y
-	// d = abs(a*cp.x + b*cp.y + c) / sqrt(a*a + b*b)
 
 	return false;
 }
+
 
 inline bool sign(D3DXVECTOR2 p1, D3DXVECTOR2 p2, D3DXVECTOR2 p3)
 {
 	return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
 }
-
 
 inline bool PointInTriangle(D3DXVECTOR2 pt, D3DXVECTOR2 v1, D3DXVECTOR2 v2, D3DXVECTOR2 v3)
 {
@@ -94,39 +101,29 @@ inline bool CircleTriangleCollision(D3DXVECTOR2 circleCenter, float circleRadius
 {
 	// 충돌 case 1 : 원의 중심이 삼각형 안에 있는 경우 
 	//if (PointInTriangle(circleCenter, p1, p2, p3))
-	//	return true;
+		//return true;
 
 	// 충돌 case 2 : 원이 삼각형의 어떤 모서리를 넘었을 경우
 	{
 		float d;	// 점에서 모서리까지의 거리
-		float a, b, c;
 		D3DXVECTOR2 r1, r2;
 
 		// 모서리 1
 		r1 = p1;
 		r2 = p2;
-		a = r2.y - r1.y;
-		b = -(r2.x - r1.x);
-		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
-		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		d = GetDistanceBetweenPointAndLineSegment(circleCenter, r1, r2);
 		if (d <= circleRadius) return true;
 
 		// 모서리 2
 		r1 = p2;
 		r2 = p3;
-		a = r2.y - r1.y;
-		b = -(r2.x - r1.x);
-		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
-		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		d = GetDistanceBetweenPointAndLineSegment(circleCenter, r1, r2);
 		if (d <= circleRadius) return true;
 
 		// 모서리 3
 		r1 = p3;
 		r2 = p1;
-		a = r2.y - r1.y;
-		b = -(r2.x - r1.x);
-		c = -(r2.y - r1.y)*r1.x + (r2.x - r1.x)*r1.y;
-		d = abs(a*circleCenter.x + b * circleCenter.y + c) / sqrt(a*a + b * b);
+		d = GetDistanceBetweenPointAndLineSegment(circleCenter, r1, r2);
 		if (d <= circleRadius) return true;
 	}
 

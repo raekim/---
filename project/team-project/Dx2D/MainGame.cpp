@@ -73,7 +73,7 @@ void MainGame::Init()
 
 	m_testCircle->Init();
 	m_testCircle->SetPosition(WINSIZEX*0.5f, WINSIZEY*0.5f - 100);
-	m_testCircle->SetColor({ 0,0,1,1 });
+	m_testCircle->SetColor({ 1,0,0,1 });
 }
 
 void MainGame::CreateGameClasses()
@@ -142,7 +142,7 @@ void MainGame::Update()
 	
 		// 현재 맵의 타일과 원 collision check
 		auto originalCirclePos = m_testCircle->GetPosition(); // 원 이전 위치 저장
-
+		
 		// 바뀐 위치의 원이 현재 맵과 충돌?
 		m_testCircle->SetPosition(circlePos);
 		bool collide = m_tileMapManager->CurrMapCircleCollision(m_testCircle);
