@@ -30,10 +30,7 @@
 
 using namespace std;
 
-// 전역 변수:
-extern HINSTANCE	g_hInst;                    // 현재 인스턴스입니다.
-extern HWND			g_hWnd;						// 윈도우 핸들
-extern POINT		g_ptMouse;
+
 
 // 전역 디파인
 #define WINSIZEX 1280
@@ -49,6 +46,8 @@ extern POINT		g_ptMouse;
 
 #define GRAVITY (9.8f * 60.0f)
 #define DEFAULT_X 200
+
+#define TILESIZE 80	// 타일맵 타일 사이즈 (가로,세로 동일)
 
 /*
 속성 -> C/C++ -> 추가 포함 디렉터리 : ../../_Libraries
@@ -89,3 +88,10 @@ extern POINT		g_ptMouse;
 
 // 매니져 클래스
 #include "TextManager.h"
+
+// 전역 변수:
+extern HINSTANCE	g_hInst;                    // 현재 인스턴스입니다.
+extern HWND			g_hWnd;						// 윈도우 핸들
+extern POINT		g_ptMouse;
+extern D3DXVECTOR2  g_cameraPos;
+extern bool			g_isDrawCollider;

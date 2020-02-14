@@ -11,9 +11,10 @@
 HINSTANCE	g_hInst;                            // 현재 인스턴스입니다.
 HWND		g_hWnd;								// 윈도우 핸들
 POINT		g_ptMouse;
-D3DXVECTOR2 g_cameraPos;
+D3DXVECTOR2 g_cameraPos;	// 카메라 포지션
 bool		g_isDrawBorder;
 bool		g_mouseLButtonDown;	// 마우스 왼쪽버튼 클릭
+bool		g_isDrawCollider;
 
 WCHAR		szTitle[MAX_LOADSTRING] = L"team-project";    // 제목 표시줄 텍스트입니다.
 MainGame*	pMG;

@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 template <typename T>
 class Primitive2DObejct
 {
 protected:
-	D3DXMATRIX				m_matWorld;			// SRT ¸ÅÆ®¸¯½º : º¯È¯ Çà·Ä
-	D3DXMATRIX				m_matSRT;			// SRT ¸ÅÆ®¸¯½º : Ãæµ¹ °Ë»ç¿ë
+	D3DXMATRIX				m_matWorld;			// SRT ë§¤íŠ¸ë¦­ìŠ¤ : ë³€í™˜ í–‰ë ¬
+	D3DXMATRIX				m_matSRT;			// SRT ë§¤íŠ¸ë¦­ìŠ¤ : ì¶©ëŒ ê²€ì‚¬ìš©
 	D3DXVECTOR2				m_vPosition;
 	D3DXVECTOR2				m_vSize;
 	D3DXVECTOR3				m_vRotation;
@@ -12,22 +12,22 @@ protected:
 	vector<T>				m_vecVertex;
 	vector<UINT>			m_vecIndex;
 
-	D3DXCOLOR				m_stColor;			// ¸ğµç ¹öÅØ½º°¡ °ø¿ëÀ¸·Î »ç¿ëÇÏ´Â »ö»ó°ª
+	D3DXCOLOR				m_stColor;			// ëª¨ë“  ë²„í…ìŠ¤ê°€ ê³µìš©ìœ¼ë¡œ ì‚¬ìš©í•˜ëŠ” ìƒ‰ìƒê°’
 
-	/* ±âº» µµÇü ·»´õ ======================*/
-	ID3D11Buffer*			m_pWorldBuffer;		// ¿ùµå ¸ÅÆ®¸¯½º ¹öÆÛ
-	ID3D11InputLayout*		m_pVertexLayout;	// ÀÔ·Â ·¹ÀÌ¾Æ¿ô ¼³Á¤°ª
-	ID3D11Buffer*			m_pVertexBuffer;	// ¹öÅØ½º ¹öÆÛ
-	ID3D11Buffer*			m_pIndexBuffer;		// ÀÎµ¦½º ¹öÆÛ
-	ID3D11Buffer*			m_pColorBuffer;		// »ö»ó ¹öÆÛ
-	Shader*					m_pShader;			// ¼ÎÀÌ´õ Å¬·¡½º
+	/* ê¸°ë³¸ ë„í˜• ë Œë” ======================*/
+	ID3D11Buffer*			m_pWorldBuffer;		// ì›”ë“œ ë§¤íŠ¸ë¦­ìŠ¤ ë²„í¼
+	ID3D11InputLayout*		m_pVertexLayout;	// ì…ë ¥ ë ˆì´ì•„ì›ƒ ì„¤ì •ê°’
+	ID3D11Buffer*			m_pVertexBuffer;	// ë²„í…ìŠ¤ ë²„í¼
+	ID3D11Buffer*			m_pIndexBuffer;		// ì¸ë±ìŠ¤ ë²„í¼
+	ID3D11Buffer*			m_pColorBuffer;		// ìƒ‰ìƒ ë²„í¼
+	Shader*					m_pShader;			// ì…°ì´ë” í´ë˜ìŠ¤
 	bool					m_isDraw;
 	/*=====================================*/
 
-	/* º¸´õ¶óÀÎ ·»´õ =========================*/
-	Shader*					m_pBorderShader;	// º¸´õ¶óÀÎ ¼ÎÀÌ´õ Å¬·¡½º
-	ID3D11Buffer*			m_pBorderBuffer;	// º¸´õ¶óÀÎ ¹öÅØ½º ¹öÆÛ
-	UINT					m_nBVCount;			// º¸´õ¶óÀÎ ¹öÅØ½º °¹¼ö
+	/* ë³´ë”ë¼ì¸ ë Œë” =========================*/
+	Shader*					m_pBorderShader;	// ë³´ë”ë¼ì¸ ì…°ì´ë” í´ë˜ìŠ¤
+	ID3D11Buffer*			m_pBorderBuffer;	// ë³´ë”ë¼ì¸ ë²„í…ìŠ¤ ë²„í¼
+	UINT					m_nBVCount;			// ë³´ë”ë¼ì¸ ë²„í…ìŠ¤ ê°¯ìˆ˜
 	bool					m_isDrawBorder;
 	/*=====================================*/
 
@@ -99,16 +99,16 @@ inline void Primitive2DObejct<T>::CreateBorderVertexBuffer(int start)
 
 	m_nBVCount = vecVertex.size();
 
-	// ¹öÆÛ ¼³Á¤°ª
+	// ë²„í¼ ì„¤ì •ê°’
 	D3D11_BUFFER_DESC desc = { 0, };
 	desc.Usage = D3D11_USAGE_DEFAULT;
 	desc.ByteWidth = sizeof(PCVertex) * vecVertex.size();
 	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	// ¹öÆÛ¿¡ ´ãÀ» µ¥ÀÌÅÍ
+	// ë²„í¼ì— ë‹´ì„ ë°ì´í„°
 	D3D11_SUBRESOURCE_DATA data = { 0, };
 	data.pSysMem = &vecVertex[0];
 
-	// ¹öÆÛ »ı¼º(IN ¹öÆÛ ¼³Á¤°ª, IN µ¥ÀÌÅÍ, OUT ¸¸µé¾îÁø ¹öÆÛ¿¡ ´ëÇÑ Æ÷ÀÎÅÍ)
+	// ë²„í¼ ìƒì„±(IN ë²„í¼ ì„¤ì •ê°’, IN ë°ì´í„°, OUT ë§Œë“¤ì–´ì§„ ë²„í¼ì— ëŒ€í•œ í¬ì¸í„°)
 	HRESULT hr = Device->CreateBuffer(&desc, &data, &m_pBorderBuffer);
 	assert(SUCCEEDED(hr));
 }

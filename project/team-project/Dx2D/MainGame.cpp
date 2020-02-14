@@ -69,11 +69,17 @@ void MainGame::Init()
 {
 	m_tileMapManager->Init();
 	m_tileMapManager->LoadMap();
+	g_cameraPos = { 0,0 };	// 카메라 위치 원위치로 세팅
+
+	m_testCircle->Init();
+	m_testCircle->SetPosition(WINSIZEX*0.5f, WINSIZEY*0.5f - 100);
+	m_testCircle->SetColor({ 1,0,0,1 });
 }
 
 void MainGame::CreateGameClasses()
 {
 	m_tileMapManager = new TileMapManager;
+	m_testCircle = new Circle;
 }
 void MainGame::DeleteGameClasses()
 {
@@ -87,7 +93,63 @@ void MainGame::Update()
 		this->Init();
 	}
 
+	ImGui::Checkbox("Draw Map Colliders", &g_isDrawCollider);
+
+	// 넘버패드로 카메라 움직임
+	// 임시 코드임... 추후 카메라는 캐릭터 이동에 따라 움직이도록 변경
+	{
+		static float speed = 500;	// 카메라 스피드
+		if (g_pKeyManager->isStayKeyDown(VK_NUMPAD4))
+		{
+			g_cameraPos.x -= speed * g_pTimeManager->GetDeltaTime();
+		}
+		else if (g_pKeyManager->isStayKeyDown(VK_NUMPAD6))
+		{
+			g_cameraPos.x += speed * g_pTimeManager->GetDeltaTime();
+		}
+		else if (g_pKeyManager->isStayKeyDown(VK_NUMPAD8))
+		{
+			g_cameraPos.y += speed * g_pTimeManager->GetDeltaTime();
+		}
+		else if (g_pKeyManager->isStayKeyDown(VK_NUMPAD2))
+		{
+			g_cameraPos.y -= speed * g_pTimeManager->GetDeltaTime();
+		}
+	}
+
 	m_tileMapManager->Update();
+
+	// 테스트용 원 움직임
+	{
+		auto circlePos = m_testCircle->GetPosition();
+		static float speed = 500;	// 스피드
+		if (g_pKeyManager->isStayKeyDown('A'))
+		{
+			circlePos.x -= speed * g_pTimeManager->GetDeltaTime();
+		}
+		else if (g_pKeyManager->isStayKeyDown('D'))
+		{
+			circlePos.x += speed * g_pTimeManager->GetDeltaTime();
+		}
+		else if (g_pKeyManager->isStayKeyDown('W'))
+		{
+			circlePos.y += speed * g_pTimeManager->GetDeltaTime();
+		}
+		else if (g_pKeyManager->isStayKeyDown('S'))
+		{
+			circlePos.y -= speed * g_pTimeManager->GetDeltaTime();
+		}
+	
+		// 현재 맵의 타일과 원 collision check
+		auto originalCirclePos = m_testCircle->GetPosition(); // 원 이전 위치 저장
+		
+		// 바뀐 위치의 원이 현재 맵과 충돌?
+		m_testCircle->SetPosition(circlePos);
+		bool collide = m_tileMapManager->CurrMapCircleCollision(m_testCircle);
+		if(collide) m_testCircle->SetPosition(originalCirclePos); // 충돌 이전 위치로 되돌림
+
+		m_testCircle->Update();
+	}
 }
 
 void MainGame::Render()
@@ -100,6 +162,8 @@ void MainGame::Render()
 
 	// Render
 	m_tileMapManager->Render();
+
+	m_testCircle->Render();
 
 	DeviceContext->OMSetBlendState(m_pNormalBlendState, NULL, 0xFF); // 반투명 미사용(기본값) 설정
 

@@ -1,3 +1,18 @@
-- 키보드 화살표 키로 카메라 움직이기(화면보다 큰 맵 볼수있도록 임시 카메라 용도)
-- circle과 polygon(캐릭터-타일(삼각형, 사각형)충돌에 쓰임) collision 만들어서 캐릭터에 쓰이게 함(수요일에 완성)
+1. make circle move
+
+
+2. circle&rect  circle&triangle collision function
+- test circle collision
+
+- 맵 넓히기
 - 코인 만들기(금-토)
+
+!소스코드 diff 돌려서 수동 업데이트
+
+
+============================완료===========================
+- 넘버패드 키로 카메라 움직이기(화면보다 큰 맵 볼수있도록 임시 카메라 용도)
+	- 카메라 글로벌 변수로 추가
+	-4방향 카메라(위,아래 추가)
+-TileMapManager에서 template만들 때 tile에 collider도 가지고 있도록 변경
+-타일맵에 collider 붙이기(tile class에 멤버로 추가, 사각형과 삼각형)

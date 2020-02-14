@@ -117,6 +117,9 @@
     <ClInclude Include="TileMapManager.h">
       <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClInclude>
+    <ClInclude Include="MyTriangle.h">
+      <Filter>Dx2D Framework\4. GameClasses</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -171,6 +174,9 @@
       <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClCompile>
     <ClCompile Include="TileMapManager.cpp">
+      <Filter>Dx2D Framework\4. GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTriangle.cpp">
       <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClCompile>
   </ItemGroup>

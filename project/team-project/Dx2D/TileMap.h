@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Tile.h"
-#define TILESIZE 80
 
 // 타일맵 하나는 맵 하나를 표현
 class TileMap : public iGameNode
@@ -27,6 +26,10 @@ public:
 	int GetMapInfoWidth() { return m_mapInfoWidth; }
 	int GetMapInfoHeight() { return m_mapInfoHeight; }
 	void SetTileMapInfo(int i, int j, int info) { m_tileMapInfo[i][j] = info; }
+
+	bool CircleCollision(Circle * other);	// 현재 맵의 타일들과 어떤 원이 충돌하는가?
+
+
 
 	// 맵 로드/언로드
 	void Load(map<int, Tile*>& templates);

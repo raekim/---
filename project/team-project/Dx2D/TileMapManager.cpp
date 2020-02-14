@@ -11,16 +11,57 @@ TileMapManager::TileMapManager()
 	{
 		for (int j = 0; j < 8; ++j)
 		{
-			tile = new Tile(new Sprite(L"test-ground", 8, 16, i*8 + j));
-			m_tileTemplates.insert(make_pair((i+1)*10 + (j+1), tile));
+			tile = new Tile(new Sprite(L"test-ground", 8, 16, i * 8 + j));
+			tile->Init();
+			// 타일 collider 설정
+			// 디폴트는 sprite 사이즈에 맞는 rect collider
+			// 각 타일에 알맞은 collider는 밑의 수동 설정에서 코드로 적용시킨다
+			{
+				tile->SetRectCollider();
+			}
+			m_tileTemplates.insert(make_pair((i + 1) * 10 + (j + 1), tile));
 		}
 	}
+
+	// 수동 collider 설정
+	{
+		//m_vecVertex.push_back(PCVertex(D3DXVECTOR3(-0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1))); // 0
+		//m_vecVertex.push_back(PCVertex(D3DXVECTOR3(-0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1))); // 1
+		//m_vecVertex.push_back(PCVertex(D3DXVECTOR3(0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1))); // 2
+		//m_vecVertex.push_back(PCVertex(D3DXVECTOR3(0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1))); // 3
+		vector<PCVertex> rightTop;	// 직각인 각이 오른쪽 위에 있는 삼각형
+		rightTop.emplace_back(D3DXVECTOR3(-0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		rightTop.emplace_back(D3DXVECTOR3(0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		rightTop.emplace_back(D3DXVECTOR3(0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		
+		vector<PCVertex> leftTop;	// 직각인 각이 왼쪽 위에 있는 삼각형
+		leftTop.emplace_back(D3DXVECTOR3(-0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		leftTop.emplace_back(D3DXVECTOR3(-0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		leftTop.emplace_back(D3DXVECTOR3(0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		
+		vector<PCVertex> leftBottom;	// 직각인 각이 왼쪽 아래에 있는 삼각형
+		leftBottom.emplace_back(D3DXVECTOR3(0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		leftBottom.emplace_back(D3DXVECTOR3(-0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		leftBottom.emplace_back(D3DXVECTOR3(-0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+
+		vector<PCVertex> rightBottom;	// 직각인 각이 오른쪽 아래에 있는 삼각형
+		rightBottom.emplace_back(D3DXVECTOR3(0.5f, 0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		rightBottom.emplace_back(D3DXVECTOR3(0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		rightBottom.emplace_back(D3DXVECTOR3(-0.5f, -0.5f, 0), D3DXCOLOR(1, 1, 1, 1));
+		
+		m_tileTemplates[14]->SetTriangleCollider(rightTop);
+		m_tileTemplates[163]->SetTriangleCollider(leftTop);
+		m_tileTemplates[135]->SetTriangleCollider(leftBottom);
+		m_tileTemplates[125]->SetTriangleCollider(rightBottom);
+	}
+
 
 	// 타일맵들(int로 표현)을 만들어서 보유한 타일맵 목록에 넣기
 	TileMap* tileMap;
 	FILE * pFile;
 
 	tileMap = new TileMap(WINSIZEX, WINSIZEY);
+
 
 	// 16x9 맵 정보를 파일로부터 읽어온다
 	pFile = fopen("../../_MapInfo/map1.txt", "rt");
@@ -74,4 +115,9 @@ void TileMapManager::LoadMap(int idx)
 void TileMapManager::UnloadMap(int idx)
 {
 	m_tileMaps[idx]->Unload();
+}
+
+bool TileMapManager::CurrMapCircleCollision(Circle * other)
+{
+	return m_tileMaps[m_currentLoadedMapIdx]->CircleCollision(other);
 }
