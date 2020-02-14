@@ -79,8 +79,19 @@ void MainGame::Init()
 void MainGame::CreateGameClasses()
 {
 	m_tileMapManager = new TileMapManager;
+
+	// 원 충돌 테스트용 원
 	m_testCircle = new Circle;
+
+	// 백그라운드 이미지 생성 및 크기조절, 초기화
+	{
+		g_pTextureManager->AddTexture(L"background-1", L"platformer-pack-redux-360-assets/PNG/Backgrounds/blue_desert.png");
+		m_backgroundImg = new Sprite(L"background-1", 1, 1, 0);
+		m_backgroundImg->Init();
+		m_backgroundImg->SetConstantScale({ WINSIZEX ,WINSIZEY });
+	}
 }
+
 void MainGame::DeleteGameClasses()
 {
 	//SAFE_DELETE
@@ -98,14 +109,15 @@ void MainGame::Update()
 	// 넘버패드로 카메라 움직임
 	// 임시 코드임... 추후 카메라는 캐릭터 이동에 따라 움직이도록 변경
 	{
+		static float camDiffX = 0;
 		static float speed = 500;	// 카메라 스피드
 		if (g_pKeyManager->isStayKeyDown(VK_NUMPAD4))
 		{
-			g_cameraPos.x -= speed * g_pTimeManager->GetDeltaTime();
+			camDiffX -= speed * g_pTimeManager->GetDeltaTime();
 		}
 		else if (g_pKeyManager->isStayKeyDown(VK_NUMPAD6))
 		{
-			g_cameraPos.x += speed * g_pTimeManager->GetDeltaTime();
+			camDiffX += speed * g_pTimeManager->GetDeltaTime();
 		}
 		else if (g_pKeyManager->isStayKeyDown(VK_NUMPAD8))
 		{
@@ -114,6 +126,11 @@ void MainGame::Update()
 		else if (g_pKeyManager->isStayKeyDown(VK_NUMPAD2))
 		{
 			g_cameraPos.y -= speed * g_pTimeManager->GetDeltaTime();
+		}
+		if (abs(camDiffX) >= 1)
+		{
+			g_cameraPos.x += (int)camDiffX;
+			camDiffX = 0;
 		}
 	}
 
@@ -149,6 +166,11 @@ void MainGame::Update()
 		if(collide) m_testCircle->SetPosition(originalCirclePos); // 충돌 이전 위치로 되돌림
 
 		m_testCircle->Update();
+
+		// 백그라운드 이미지 업데이트
+		{
+			m_backgroundImg->Update();
+		}
 	}
 }
 
@@ -161,6 +183,8 @@ void MainGame::Render()
 	DeviceContext->OMSetBlendState(m_pAlphaBlendState, NULL, 0xFF);	// 반투명 사용 설정
 
 	// Render
+	m_backgroundImg->Render();	// 배경 맨 처음 업데이트
+
 	m_tileMapManager->Render();
 
 	m_testCircle->Render();

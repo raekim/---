@@ -14,6 +14,7 @@ private:
 	// Game Classes
 	TileMapManager* m_tileMapManager;
 	Circle* m_testCircle;	// 원 충돌 테스트용
+	Sprite* m_backgroundImg;	// 테스트 백그라운드 이미지
 public:
 	MainGame();
 	~MainGame();
