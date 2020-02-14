@@ -149,6 +149,7 @@ inline void Primitive2DObejct<T>::Render()
 	DeviceContext->UpdateSubresource(m_pWorldBuffer, 0, 0, &m_matWorld, 0, 0);
 	DeviceContext->VSSetConstantBuffers(1, 1, &m_pWorldBuffer);
 
+
 	if (m_isDraw)
 	{
 		m_pShader->SetShader();

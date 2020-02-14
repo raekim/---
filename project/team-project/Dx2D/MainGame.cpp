@@ -10,6 +10,33 @@ MainGame::MainGame()
 	SetBlendStates();
 	CreateGameClasses();
 
+	// 타일 이미 경계선 없애기 위한 샘플러 스테이트 설정
+	// 참고 : https://gamedev.stackexchange.com/questions/25117/why-are-there-lines-in-between-my-tiles
+	{
+		// 샘플러 스테이트 만들기
+		D3D11_SAMPLER_DESC  desc ;
+		desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+		desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+		desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+		desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+		desc.MinLOD = -FLT_MAX;
+		desc.MaxLOD = FLT_MAX;
+		desc.MipLODBias = 0.0f;
+		desc.MaxAnisotropy = 1;
+		desc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+		desc.BorderColor[0] = 1.0f;
+		desc.BorderColor[1] = 1.0f;
+		desc.BorderColor[2] = 1.0f;
+		desc.BorderColor[3] = 1.0f;
+
+		Device->CreateSamplerState(&desc, &samplerState);
+
+		// 샘플러 스테이트 설정
+		DeviceContext->VSSetSamplers(0, 1, &samplerState);
+		DeviceContext->GSSetSamplers(0, 1, &samplerState);
+		DeviceContext->PSSetSamplers(0, 1, &samplerState);
+	}
+
 	this->Init();
 }
 
@@ -176,11 +203,16 @@ void MainGame::Update()
 
 void MainGame::Render()
 {
+
 	D3DXCOLOR background = D3DXCOLOR(0, 0, 0, 1);
 	DeviceContext->ClearRenderTargetView(RTV, (float*)background);
 	DeviceContext->VSSetConstantBuffers(0, 1, &m_pViewProjBuffer);
 
 	DeviceContext->OMSetBlendState(m_pAlphaBlendState, NULL, 0xFF);	// 반투명 사용 설정
+
+	//DeviceContext->VSGetSamplers(0, 1, &samplerState);
+
+	
 
 	// Render
 	m_backgroundImg->Render();	// 배경 맨 처음 업데이트

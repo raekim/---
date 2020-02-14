@@ -10,6 +10,9 @@ private:
 	ID3D11BlendState*	m_pAlphaBlendState;		// 반투명 블렌드 옵션
 	void SetBlendStates();	// 옵션별 블렌드 상태값 생성
 
+	// my code
+	ID3D11SamplerState* samplerState; // 샘플링 스테이트
+
 private:
 	// Game Classes
 	TileMapManager* m_tileMapManager;
