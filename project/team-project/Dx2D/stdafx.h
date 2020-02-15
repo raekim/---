@@ -85,6 +85,8 @@ using namespace std;
 #include "Clip.h"
 #include "Animation.h"
 #include "iGameNode.h"
+#include "TileMapManager.h"
+#include "Character.h"
 
 // 매니져 클래스
 #include "TextManager.h"

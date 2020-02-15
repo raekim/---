@@ -120,6 +120,9 @@
     <ClInclude Include="MyTriangle.h">
       <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\팀원작업\캐릭터\Dx2D\Character.h">
+      <Filter>Dx2D Framework\4. GameClasses</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -177,6 +180,9 @@
       <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClCompile>
     <ClCompile Include="MyTriangle.cpp">
+      <Filter>Dx2D Framework\4. GameClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\팀원작업\캐릭터\Dx2D\Character.cpp">
       <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "TileMapManager.h"
 class MainGame : public iGameNode
 {
 private:
@@ -12,8 +11,13 @@ private:
 
 private:
 	// Game Classes
-	TileMapManager* m_tileMapManager;
-	Circle* m_testCircle;	// 원 충돌 테스트용
+	Character*				m_pCharacter;
+	TileMapManager*			m_tileMapManager;
+	Rect*					m_pTest;
+	Rect*					m_pTest2;
+	Rect*					m_pTest3;
+	MyTriangle*				m_pTriangle;
+	Circle*					m_testCircle;		// 원 충돌 테스트용
 public:
 	MainGame();
 	~MainGame();

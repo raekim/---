@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\팀원작업\캐릭터\Dx2D\Character.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Clip.h" />
     <ClInclude Include="Dx2D.h" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\팀원작업\캐릭터\Dx2D\Character.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Clip.cpp" />
     <ClCompile Include="Dx2D.cpp" />
