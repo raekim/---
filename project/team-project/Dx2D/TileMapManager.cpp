@@ -60,15 +60,13 @@ TileMapManager::TileMapManager()
 	TileMap* tileMap;
 	FILE * pFile;
 
-	tileMap = new TileMap(WINSIZEX, WINSIZEY);
-
-
-	// 16x9 맵 정보를 파일로부터 읽어온다
+	tileMap = new TileMap(WINSIZEX*2, WINSIZEY);
+	// 16x32 맵 정보를 파일로부터 읽어온다
 	pFile = fopen("../../_MapInfo/map1.txt", "rt");
-	int tileInfo[9][16];
+	int tileInfo[9][32];
 	for (int i = 0; i < 9; ++i)
 	{
-		for (int j = 0; j < 16; ++j)
+		for (int j = 0; j < 32; ++j)
 		{
 			fscanf(pFile, "%d ", &tileInfo[i][j]);
 		}
@@ -80,6 +78,22 @@ TileMapManager::TileMapManager()
 			tileMap->SetTileMapInfo(i, j, tileInfo[i][j]);
 		}
 	}
+	//pFile = fopen("../../_MapInfo/map1.txt", "rt");
+	//int tileInfo[9][16];
+	//for (int i = 0; i < 9; ++i)
+	//{
+	//	for (int j = 0; j < 16; ++j)
+	//	{
+	//		fscanf(pFile, "%d ", &tileInfo[i][j]);
+	//	}
+	//}
+	//for (int i = 0; i < tileMap->GetMapInfoHeight(); ++i)
+	//{
+	//	for (int j = 0; j < tileMap->GetMapInfoWidth(); ++j)
+	//	{
+	//		tileMap->SetTileMapInfo(i, j, tileInfo[i][j]);
+	//	}
+	//}
 	m_tileMaps.push_back(tileMap);
 }
 

@@ -52,9 +52,11 @@ void TileMap::Render()
 			if (m_tileMapInfo[i][j] == 0) continue;
 
 			// 각 타일들의 적절한 위치 업데이트
-			if (m_tileMapInfo[i][j] == 0) continue;
 			D3DXVECTOR2 tilePos = { j*TILESIZE + TILESIZE * 0.5f, (m_mapInfoHeight - i - 1)*TILESIZE + TILESIZE * 0.5f };
-			tilePos -= g_cameraPos;
+			D3DXVECTOR2 camPos = g_cameraPos;	// 타일 렌더를 위한 카메라 포지션(정수로만)
+			camPos.x = (int)camPos.x;
+			camPos.y = (int)camPos.y;
+			tilePos -= camPos;
 			m_tileMap[i][j].Update(tilePos);
 			// 타일 렌더
 			m_tileMap[i][j].Render();
