@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 class MainGame : public iGameNode
 {
 private:

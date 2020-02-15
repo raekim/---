@@ -31,6 +31,7 @@ class Character
 	};
 
 private:
+	float					 m_xPosMaxClamp;		// 캐릭터 이동 가능한 최대 x좌표 (맵 마다 다르다)
 	Animation<STATE>*		m_pAnimation;			// 캐릭터 에니메이션
 	STATE					m_eState;				// 캐릭터 현재 상태
 	D3DXVECTOR2				m_vPosition;			// 캐릭터 포지션

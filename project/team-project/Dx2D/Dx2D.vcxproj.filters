@@ -120,7 +120,7 @@
     <ClInclude Include="MyTriangle.h">
       <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\팀원작업\캐릭터\Dx2D\Character.h">
+    <ClInclude Include="Character.h">
       <Filter>Dx2D Framework\4. GameClasses</Filter>
     </ClInclude>
   </ItemGroup>

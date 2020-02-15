@@ -155,8 +155,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\팀원작업\캐릭터\Dx2D\Character.h" />
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="Clip.h" />
     <ClInclude Include="Dx2D.h" />
     <ClInclude Include="DxComponent.h" />
