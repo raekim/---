@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include "Monster.h"
 class MainGame : public iGameNode
 {
 private:
@@ -11,6 +11,7 @@ private:
 	void SetBlendStates();	// 옵션별 블렌드 상태값 생성
 
 private:
+	Monster* monster;
 	// Game Classes
 	Character*				m_pCharacter;
 	TileMapManager*			m_tileMapManager;

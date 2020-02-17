@@ -77,12 +77,15 @@ void MainGame::Init()
 	// 캐릭터 초기화
 	m_pCharacter->Init();
 	m_pCharacter->SetTileMapManager(m_tileMapManager);
+
+	monster->Init();
 }
 
 void MainGame::CreateGameClasses()
 {
 	m_tileMapManager = new TileMapManager;
 	m_pCharacter = new Character;
+	monster = new Monster;
 }
 void MainGame::DeleteGameClasses()
 {
@@ -103,6 +106,8 @@ void MainGame::Update()
 	SAFE_UPDATE(m_tileMapManager);
 
 	m_tileMapManager->Update();
+
+	monster->Update();
 }
 
 void MainGame::Render()
@@ -116,6 +121,7 @@ void MainGame::Render()
 	// Render
 	SAFE_RENDER(m_tileMapManager);
 	SAFE_RENDER(m_pCharacter);
+	monster->Render();
 
 	DeviceContext->OMSetBlendState(m_pNormalBlendState, NULL, 0xFF); // 반투명 미사용(기본값) 설정
 
